@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>DarkEnglish</title>
+        <link rel="shortcut icon" href="/favicon.gif">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/app.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    </head>
+    <body style="background-image: url('/fon_main.jpg');">
+        <!--
+    @if(isset($exit_accses))
+        <div class="wrapper_area">
+            <h2>Успешный выход, куки очищены!</h2>
+        </div>
+    @endif
+    @if(isset($words_accses))
+        <div class="wrapper_area">
+        <h2>Нет доступа к этому разделу</h2>
+        </div>
+    @endif
+    -->
+    <header>
+        <h2 class="logo">English</h2>
+        <!--
+        @if(isset($login))
+        <h2 class="logo">{{$login}}</h2>
+        @elseif(isset($_COOKIE['login']))
+            <h2 class="logo">{{$_COOKIE['login']}}</h2>
+        @else
+            <h2 class="logo">Войдите в аккаунт</h2>
+        @endif
+        -->
+        <nav class="navigation">
+            <a href="/">Home</a>
+            <a href="courses">Courses</a>
+            <a href="dictionary" class="dictionary_link">Dictionary</a>
+            <a href="exit">Exit</a>
+            <button class="btnLogin-popup" ONCLICK="show_page_form()">Login</button>
+        </nav>
+    </header>
+
+  <!--  @yield('dictionary') -->
+  <!--  @yield('courses') -->
+   <!-- @yield('test') -->
+  <!--  @yield('rule') -->
+    <div class="wrapper">
+    <span class="icon-close">
+        <ion-icon name="close"></ion-icon>
+    </span>
+        <div class="form-box login">
+            <h2>Login</h2>
+            <form method="post" action="/login">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input type="text" name="login_l" required>
+                    <label>Username</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input type="password" name="pasword_p" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">Remember me</label>
+                    <a href="#">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btns">Login</button>
+                <div class="login-register">
+                    <p>Don't have an account? <a href="#" class="register-link">Register</a>
+
+                    </p>
+                </div>
+            </form>
+        </div>
+        <div class="form-box register">
+            <h2>Registration</h2>
+            <form method="post" action="/register">
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person"></ion-icon></span>
+                    <input name="login" type="text" required>
+                    <label>Username</label>
+                </div>
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                    <input name="password" type="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label><input type="checkbox">I agree to the terms & conditions</label>
+                </div>
+                <button type="submit" class="btns">Register</button>
+                <div class="login-register">
+                    <p>Already have an account? <a href="#" class="login-link">Login</a>
+
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $('#add_test_form').hide();
+        const test = document.querySelector('.wrapper_area');
+        test.addEventListener('click',(event)=>{
+            let add_course = event.target.id;
+            if(add_course === "add_test"){
+                $('#add_test_form').fadeIn(1000);
+            }
+        })
+    </script>
+    <script>
+        $('.wrapper').hide();
+        flag = false;
+        function show_page_form(){
+            flag = false;
+            $('#dictionary').hide();
+            $('#courses').hide();
+            $('.wrapper').show(500);
+        }
+        const course = document.querySelector('#courses');
+        course.addEventListener('click',(event)=>{
+            let add_course = event.target.id;
+            if(add_course === "add_courses"){
+                $('#add_course_form').fadeIn(1000);
+            }
+        })
+    </script>
+    <script>
+        $('#add_word').hide();
+        $('#add_course_form').hide();
+        function add_question(){
+           let textarea = document.getElementById("questions_area");
+           let text = textarea.value;
+           let question = document.getElementById("question_a").value;
+           let correct_answer = document.getElementById("correct_answer").value;
+           let option_answer = document.getElementById("options_answer").value;
+
+            textarea.textContent =  text+question+"\r"+option_answer+"\r"+correct_answer+"\r";
+
+        }
+        const table = document.querySelector('#table');
+        table.addEventListener('click',(event)=>{
+            let deleteid = event.target.id;
+            if(parseInt(deleteid)) {
+                window.location.href = 'dictionary?deleteid=' + deleteid;
+            }
+        })
+        const table2 = document.querySelector('#table2');
+        table2.addEventListener('click',(event)=>{
+            let add_words = event.target.id;
+            if(add_words === "add_words"){
+                $('#add_word').fadeIn(1000);
+            }
+        })
+
+    </script>
+    <script src="/js/app.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    </body>
+</html>

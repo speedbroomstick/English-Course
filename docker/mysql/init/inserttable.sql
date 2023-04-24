@@ -1,0 +1,1 @@
+INSERT INTO users (login,password) VALUES ('leonid','Mastaskas4321'),('admin','admin');

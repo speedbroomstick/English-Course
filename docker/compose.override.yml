@@ -1,0 +1,11 @@
+
+services:
+  node:
+    ports:
+      - "3000:3000"
+  mysql:
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - './mysql/init/initdb.sql:/docker-entrypoint-initdb.d/ini.sql'
+      - './mysql/init/inserttable.sql:/docker-entrypoint-initdb.d/inserttable.sql'

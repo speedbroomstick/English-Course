@@ -1,0 +1,25 @@
+
+services:
+  node:
+    image: node:14
+    container_name: ${COMPOSE_PROJECT_NAME}_node
+    working_dir: '/diploma/src'
+    volumes:
+      - '../:/diploma'
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: 'node index.js'
+
+  mysql:
+    image: mysql
+    container_name: ${COMPOSE_PROJECT_NAME}_mysql
+    environment:
+      MYSQL_DATABASE: ${SQL_DATABASE}
+      MYSQL_USER: ${SQL_USER}
+      MYSQL_PASSWORD: ${SQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${SQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
