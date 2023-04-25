@@ -12,7 +12,7 @@ class MySql {
     this.connection.connect();
   }
 
-   get(sql) {
+   query(sql) {
     return new Promise((resolve, reject) => {
       this.connection.query(sql, (err, results, fields) => {
         if (err) {
@@ -22,14 +22,6 @@ class MySql {
         resolve(results);
       });
     });
-  }
-
-  async insert() {
-    // Ваш код для вставки данных в базу данных
-  }
-
-  async delete() {
-    // Ваш код для удаления данных из базы данных
   }
 }
 

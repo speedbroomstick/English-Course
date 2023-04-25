@@ -7,8 +7,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/app.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
+        <script src="/socket.io/socket.io.js"></script>
     </head>
     <body style="background-image: url('/fon_main.jpg');">
         <!--
@@ -101,62 +100,19 @@
             </form>
         </div>
     </div>
-    <script>
-        $('#add_test_form').hide();
-        const test = document.querySelector('.wrapper_area');
-        test.addEventListener('click',(event)=>{
-            let add_course = event.target.id;
-            if(add_course === "add_test"){
-                $('#add_test_form').fadeIn(1000);
-            }
-        })
-    </script>
-    <script>
-        $('.wrapper').hide();
-        flag = false;
-        function show_page_form(){
-            flag = false;
-            $('#dictionary').hide();
-            $('#courses').hide();
-            $('.wrapper').show(500);
-        }
-        const course = document.querySelector('#courses');
-        course.addEventListener('click',(event)=>{
-            let add_course = event.target.id;
-            if(add_course === "add_courses"){
-                $('#add_course_form').fadeIn(1000);
-            }
-        })
-    </script>
-    <script>
-        $('#add_word').hide();
-        $('#add_course_form').hide();
-        function add_question(){
-           let textarea = document.getElementById("questions_area");
-           let text = textarea.value;
-           let question = document.getElementById("question_a").value;
-           let correct_answer = document.getElementById("correct_answer").value;
-           let option_answer = document.getElementById("options_answer").value;
 
-            textarea.textContent =  text+question+"\r"+option_answer+"\r"+correct_answer+"\r";
+    <script>
+       const socket = io();
 
-        }
-        const table = document.querySelector('#table');
-        table.addEventListener('click',(event)=>{
-            let deleteid = event.target.id;
-            if(parseInt(deleteid)) {
-                window.location.href = 'dictionary?deleteid=' + deleteid;
-            }
-        })
-        const table2 = document.querySelector('#table2');
-        table2.addEventListener('click',(event)=>{
-            let add_words = event.target.id;
-            if(add_words === "add_words"){
-                $('#add_word').fadeIn(1000);
-            }
-        })
+// Отправка сообщения на сервер
+socket.emit('message', 'Привет, сервер!');
 
-    </script>
+// Обработка сообщения от сервера
+socket.on('message', (data) => {
+  console.log('Получено сообщение:', data);
+});
+
+      </script>
     <script src="/js/app.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
