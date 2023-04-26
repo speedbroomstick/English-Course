@@ -21,12 +21,32 @@ app.get("/", (req, res) => {
   res.render("main");
 });
 
+const server = app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+const io = socketIO(server);
+
+
+io.on('connection', (socket) => {
+  console.log('Клиент подключился');
+ // socket.emit('message', 'Сервер: Вы успешно подключились к серверу!');
+});
+/*
 app.post("/login", (req, res) => {
   let userData = req.body;
   users = new Users(new MySql());
-  users.getUser(userData.login_l, userData.pasword_p);
-  res.cookie('username', 'john.doe', {httpOnly: true });
+  let result = users.getUser(userData.login_l, userData.pasword_p);
+  //res.cookie('username', 'john.doe', {httpOnly: true });
+  io.emit('message', 'Сервер: Пользователь ' + userData.login_l + ' успешно аутентифицирован!');
   res.render("main");
+}); */
+
+// обработчик POST запроса
+app.post('/login', async (req, res) => {
+  users = new Users(new MySql());
+  let result = await users.getUser(req.body.login, req.body.password);
+  io.emit('message', result);
 });
 
 app.post("/register", (req, res) => {
@@ -34,25 +54,4 @@ app.post("/register", (req, res) => {
   users = new Users(new MySql());
   users.insertUser(userData.login, userData.password);
   res.render("main");
-});
-
-const server = app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-const io = socketIO(server);
-io.on('connection', (socket) => {
-  console.log('Клиент подключился');
-
-  // Обработка события 'message' от клиента
-  socket.on('message', (data) => {
-    console.log('Получено сообщение:', data);
-
-    // Отправка сообщения обратно клиенту
-    socket.emit('message', `Сервер: Привет, вы отправили: ${data}`);
-  });
-
-  // Обработка события 'disconnect' при отключении клиента
-  socket.on('disconnect', () => {
-    console.log('Клиент отключился');
-  });
 });
