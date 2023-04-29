@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<%- include('head'); -%>
+
+  <body style="background-image: url('/fon_main.jpg')">
+    <%- include('header'); -%>
+      <div class="wrapper_area" id="dictionary">
+        <div class="ag-format-container" style="width: 100%;">
+          <table class="table">
+            <thead id="table2">
+              <tr>
+                <th scope="col">Word</th>
+                <th scope="col">Translation</th>
+                <th scope="col">Example</th>
+                <th scope="col"><span class="add_word"><ion-icon id="add_words"
+                      name="add-circle-sharp"></ion-icon></span></th>
+              </tr>
+            </thead>
+            <tbody id="table">
+              <% words.forEach((word)=> { %>
+                <%- include('tableWords', {word:word}); -%>
+                  <% });%>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <%- include('pagination', {count:count}); -%>
+      <%- include('panelAuthorization'); -%>
+        <%- include('scripts'); -%>
+  </body>
+
+</html>

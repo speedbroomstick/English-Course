@@ -20,7 +20,7 @@ create table `words`
         primary key (idWords),
     constraint fk_group
         foreign key (idGroup) references `group` (idGroup)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 create table `achievemetnts`
 (
     idAchievemetnts     int auto_increment,

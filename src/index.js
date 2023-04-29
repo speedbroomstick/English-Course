@@ -1,4 +1,5 @@
 const mysql = require("./app/MySql");
+const Words = require("./app/Words");
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -8,50 +9,89 @@ const bodyParser = require("body-parser");
 const MySql = require("./app/MySql");
 const cookieParser = require('cookie-parser');
 const socketIO = require('socket.io');
-
+const Joi = require('joi');
+const path = require('path');
 
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'node_modules')));
 
 app.set("view engine", "ejs");
 
+const schema = Joi.object({
+  username: Joi.string()
+    .alphanum()
+    .min(10)
+    .max(24)
+    .required(),
+  password: Joi.string()
+    .alphanum()
+    .required()
+    .min(10)
+    .max(24)
+});
 app.get("/", (req, res) => {
   res.render("main");
 });
-
+app.get("/dictionary", async (req, res) => {
+  const ofset = (req.query.page-1 || 0)*10;
+  words = new Words(new MySql());
+  result = await words.getWords(1,ofset,10);
+  allWords = await words.getAllWords(1);
+  let count = allWords.length;
+  if(count % 10 == 0){
+    count /= 10;
+  }else{
+    count /= 10;
+    count++;
+    count = parseInt(count);
+  }
+  res.render("dictionary", { words: result, count:count });
+});
 const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
 const io = socketIO(server);
-
-
 io.on('connection', (socket) => {
   console.log('Клиент подключился');
- // socket.emit('message', 'Сервер: Вы успешно подключились к серверу!');
 });
-/*
-app.post("/login", (req, res) => {
-  let userData = req.body;
-  users = new Users(new MySql());
-  let result = users.getUser(userData.login_l, userData.pasword_p);
-  //res.cookie('username', 'john.doe', {httpOnly: true });
-  io.emit('message', 'Сервер: Пользователь ' + userData.login_l + ' успешно аутентифицирован!');
-  res.render("main");
-}); */
-
-// обработчик POST запроса
 app.post('/login', async (req, res) => {
   users = new Users(new MySql());
-  let result = await users.getUser(req.body.login, req.body.password);
-  io.emit('message', result);
+  const data = {
+    username: req.body.login,
+    password: req.body.password
+  };
+  const { error, value } = schema.validate(data);
+  if (error) {
+    io.emit('authorization', error.message);
+  } else {
+    let result = await users.getUser(value.username, value.password);
+    if(result == true){
+      res.cookie('username', value.username);
+      }
+    io.emit('authorization', result);
+    res.send('Cookie is set');
+  }
 });
 
-app.post("/register", (req, res) => {
-  let userData = req.body;
+app.post("/register", async (req, res) => {
   users = new Users(new MySql());
-  users.insertUser(userData.login, userData.password);
-  res.render("main");
+  const data = {
+    username: req.body.login,
+    password: req.body.password
+  };
+  const { error, value } = schema.validate(data);
+  if (error) {
+    io.emit('authorization', error.message);
+  } else {
+    let result = await users.insertUser(value.username, value.password);
+    io.emit('authorization', result);
+  }
 });
+/*app.get("/dictionary", async (req, res) => {
+  words = new Words(new MySql());
+  result = await words.getWords(1);
+  res.render("dictionary", { words: result });
+});*/

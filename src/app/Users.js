@@ -6,14 +6,12 @@ class Users {
   async getUser(login, password){
    let result = await this.mySql.query("SELECT * FROM users WHERE login = '" + login + "' and password = '" +password+"'");
    if(result && result.length > 0){
-   return "Вход успешно совершен!";
-   }else{
-    return "Ошибка входных данных!";
+   return true;
    }
   }
   async insertUser(login, password){
     let result = await this.mySql.query("INSERT INTO users (login,password) VALUES ('"+login+"','"+password+"')");
-    alert("Пользователь успешно добавлен!");
+    return true;
    }
 }
 
