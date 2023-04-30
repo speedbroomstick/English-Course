@@ -14,7 +14,7 @@ create table `words`
     word        VARCHAR(100)  not null,
     translation       VARCHAR(100) null,
     means       VARCHAR(100) null,
-    example VARCHAR(100)  null,
+    example VARCHAR(200)  null,
     idGroup int not null,
     constraint words_pk
         primary key (idWords),

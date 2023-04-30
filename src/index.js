@@ -38,8 +38,8 @@ app.get("/", (req, res) => {
 app.get("/dictionary", async (req, res) => {
   const ofset = (req.query.page-1 || 0)*10;
   words = new Words(new MySql());
-  result = await words.getWords(1,ofset,10);
-  allWords = await words.getAllWords(1);
+  result = await words.getWords(2,ofset,10);
+  allWords = await words.getAllWords(2);
   let count = allWords.length;
   if(count % 10 == 0){
     count /= 10;

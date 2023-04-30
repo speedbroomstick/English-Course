@@ -57,6 +57,7 @@ header{
     transform-origin: left;
     transform: scaleX(1);
 }
+
 .navigation .btnLogin-popup{
     width: 130px;
     height: 50px;
@@ -71,6 +72,7 @@ header{
     margin-left: 40px;
     transition: .5s;
 }
+
 .navigation .btnLogin-popup:hover{
     background: #fff;
     color: #162938;
