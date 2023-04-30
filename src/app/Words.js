@@ -2,7 +2,11 @@ class Words {
     constructor(mySql) {
       this.mySql = mySql;
     }
-    async getAllWords(idGroup){
+    async getAllWords(){
+      let result = await this.mySql.query("SELECT * FROM words");
+      return result;
+     }
+    async getAllWordsGroup(idGroup){
       let result = await this.mySql.query("SELECT * FROM words WHERE idGroup = " + idGroup);
       return result;
      }

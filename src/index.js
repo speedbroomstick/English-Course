@@ -35,11 +35,24 @@ const schema = Joi.object({
 app.get("/", (req, res) => {
   res.render("main");
 });
+app.get("/word_training", async (req, res) => {
+  words = new Words(new MySql());
+  allWords = await words.getAllWords();
+  const numbers = new Set();
+  let max = allWords.length;
+  while (numbers.size < max) {
+    const randomNumber = Math.floor(Math.random() * (max - 0 + 1)) + 0;
+    numbers.add(randomNumber);
+  }
+  let order = Array.from(numbers);
+  console.log(order);
+  res.render("word_training");
+});
 app.get("/dictionary", async (req, res) => {
   const ofset = (req.query.page-1 || 0)*10;
   words = new Words(new MySql());
   result = await words.getWords(2,ofset,10);
-  allWords = await words.getAllWords(2);
+  allWords = await words.getAllWordsGroup(2);
   let count = allWords.length;
   if(count % 10 == 0){
     count /= 10;
