@@ -10,8 +10,12 @@
       </div>
     </div>
     <div class="quiz-question">
-      <h2>What is the capital of France?</h2>
+      <input type="hidden" id="chet_questions" value="<%= chetQuestions %>">
+      <input type="hidden" id="number_question" value="<%= order[chetQuestions] %>">
+      <input type="hidden" id="question" value="<%= allWords[order[chetQuestions]].word %>">
+      <h2 id="questionH2"><%= allWords[order[chetQuestions]].word %></h2>
     </div>
-    <%- include('training_level1'); -%> 
+    <%- include('training_level1',{allWords:allWords,orderOptions:orderOptions}); -%> 
+    <%- include('training_level2',{allWords:allWords,orderOptions:orderOptions}); -%> 
   </div>
 </div>

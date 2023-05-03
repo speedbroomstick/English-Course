@@ -1,3 +1,6 @@
+$(document).ready(function() {
+  $(".btnLogin-popup").on("click", show_page_form);
+});
 const username = getCookie('username'); 
 if(username){
   $('.logo').text(username);
@@ -50,7 +53,7 @@ $("#knopocka_login").click(function () {
     });
   });
 
-  const socket = io();
+  export const socket = io();
   socket.on("authorization", (data) => {
     if(data == true){
     alert('Успешно!');
