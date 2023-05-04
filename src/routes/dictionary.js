@@ -8,7 +8,32 @@ module.exports = (io) => {
   let allWords;
   let order;
   let orderOptions = [];
-  router.get("/chek_answer", async (req, res) => {
+  router.get("/chek_answer_level2", async (req, res) => {
+    try {
+      let question = req.query.question;
+      let numberQuestion = req.query.numberQuestion;
+      let answer = req.query.answer;
+      let chetQuestions = req.query.chetQuestions;
+      let isAnswerCorrect = false;
+      if(answer == allWords[order[chetQuestions]].word){
+        isAnswerCorrect = true;
+      }
+      await io.emit(
+        "answer_level2",
+        parseInt(chetQuestions) + 1,
+        allWords,
+        order,
+        orderOptions,
+        isAnswerCorrect
+      );
+      res.send("Answer checked!");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Internal server error.");
+    }
+  });
+
+  router.get("/chek_answer_level1", async (req, res) => {
     try {
       let question = req.query.question;
       let numberQuestion = req.query.numberQuestion;
@@ -19,7 +44,7 @@ module.exports = (io) => {
         isAnswerCorrect = true;
       }
       await io.emit(
-        "answersToTest",
+        "answer_level1",
         parseInt(chetQuestions) + 1,
         allWords,
         order,

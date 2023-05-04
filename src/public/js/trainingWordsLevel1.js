@@ -12,7 +12,7 @@ const but4 = $("#but4").click(function () {
   clickOption($("#but4").val());
 });
 socket.on(
-  "answersToTest",
+  "answer_level1",
   (chetQuestions, allWords, order, orderOptions, isAnswerCorrect) => {
     $("#question").val(allWords[order[chetQuestions]].word);
     $("#questionH2").text(allWords[order[chetQuestions]].word);
@@ -50,7 +50,7 @@ function clickOption(answer) {
   let numberQuestion = $("#number_question").val();
   let chetQuestions = $("#chet_questions").val();
   $.ajax({
-    url: "http://localhost:3000/chek_answer",
+    url: "http://localhost:3000/chek_answer_level1",
     method: "GET",
     data: {
       answer: answer,

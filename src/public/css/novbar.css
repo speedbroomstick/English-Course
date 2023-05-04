@@ -15,6 +15,7 @@ header{
     -webkit-user-select: none;
        -moz-user-select: none;
             user-select: none;
+    margin: 0;
 }
 .navigation a{
     position: relative;
@@ -90,6 +91,21 @@ header{
     display: block;
   }
   
-
+  .avatar-container {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    background-image: url("/user.png");
+    background-size: cover;
+    background-position: center;
+    margin-right: 10px;
+  }
   /* adjust other styles as needed */
   
