@@ -30,19 +30,21 @@ socket.on(
     $("#but4")
       .val(orderOptions[chetQuestions][3])
       .text(orderOptions[chetQuestions][3]);
-    
+
     if (isAnswerCorrect) {
-      $(".correct").text(function (index, text) {
-        return parseInt(text) + 1;
-      });
+      $(".correct").text((index, text) => parseInt(text) + 1);
     } else {
-      $(".total").text(function (index, text) {
-        return parseInt(text) + 1;
-      });
+      $(".total").text((index, text) => parseInt(text) + 1);
+      let wrongHTML =
+        '<div id="notification">' +
+        '<span id="text">Правильный ответ:' +
+        allWords[order[chetQuestions - 1]].translation +
+        "</span>" +
+        "</div>";
+      $(wrongHTML).prependTo("body").fadeIn(500).fadeOut(3000);
     }
-    
+
     $("#questionH2, #but1, #but2, #but3, #but4").hide().fadeIn(500);
-    
   }
 );
 function clickOption(answer) {

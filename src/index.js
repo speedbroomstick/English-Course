@@ -13,6 +13,7 @@ const server = app.listen(port, () => {
 const io = socketIO(server);
 const usersRoutes = require("./routes/users")(io);
 const dictionaryRoutes = require("./routes/dictionary")(io);
+const courses = require("./routes/courses")(io);
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -21,11 +22,12 @@ app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "node_modules")));
 app.use("/", usersRoutes);
 app.use("/", dictionaryRoutes);
+app.use("/", courses);
 
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("main");
+  res.render("main/main");
 });
 io.on("connection", (socket) => {
   console.log("Клиент подключился");
@@ -33,6 +35,6 @@ io.on("connection", (socket) => {
 
 app.get("/exit", (req, res) => {
   res.clearCookie("username");
-  res.render("main");
+  res.render("main/main");
 });
 

@@ -8,10 +8,9 @@ module.exports = (io) => {
   let allWords;
   let order;
   let orderOptions = [];
+  let countAnswers=0;
   router.get("/chek_answer_level2", async (req, res) => {
     try {
-      let question = req.query.question;
-      let numberQuestion = req.query.numberQuestion;
       let answer = req.query.answer;
       let chetQuestions = req.query.chetQuestions;
       let isAnswerCorrect = false;
@@ -35,8 +34,6 @@ module.exports = (io) => {
 
   router.get("/chek_answer_level1", async (req, res) => {
     try {
-      let question = req.query.question;
-      let numberQuestion = req.query.numberQuestion;
       let answer = req.query.answer;
       let chetQuestions = req.query.chetQuestions;
       let isAnswerCorrect = false;
@@ -58,25 +55,32 @@ module.exports = (io) => {
     }
   });
 
-  router.get("/word_training", async (req, res) => {
+  router.get("/word_training_level1", async (req, res) => {
     words = new Words(new MySql());
     allWords = await words.getAllWords();
-    const numbers = new Set();
-    let max = allWords.length - 1;
-    while (numbers.size < max) {
-      const randomNumber = Math.floor(Math.random() * (max - 0 + 1)) + 0;
-      numbers.add(randomNumber);
-    }
-    order = Array.from(numbers);
+    order = randomArray(allWords.length - 1);
     orderOptions = randomAnswersOpetions();
-    res.render("word_training", {
+    res.render("dictionary/word_training/word_training", {
       allWords: allWords,
       order: order,
       chetQuestions: 0,
-      orderOptions: orderOptions
+      orderOptions: orderOptions,
+      level:1
     });
   });
-
+  router.get("/word_training_level2", async (req, res) => {
+    words = new Words(new MySql());
+    allWords = await words.getAllWords();
+    order = randomArray(allWords.length - 1);
+    orderOptions = randomAnswersOpetions();
+    res.render("dictionary/word_training/word_training", {
+      allWords: allWords,
+      order: order,
+      chetQuestions: 0,
+      orderOptions: orderOptions,
+      level:2
+    });
+  });
   router.get("/dictionary", async (req, res) => {
     const ofset = (req.query.page - 1 || 0) * 10;
     words = new Words(new MySql());
@@ -90,9 +94,16 @@ module.exports = (io) => {
       count++;
       count = parseInt(count);
     }
-    res.render("dictionary", { words: result, count: count });
+    res.render("dictionary/dictionary", { words: result, count: count });
   });
-
+  function randomArray(max) {
+    const numbers = new Set();;
+    while (numbers.size < max) {
+        const randomNumber = Math.floor(Math.random() * (max - 0 + 1)) + 0;
+        numbers.add(randomNumber);
+      }
+      return Array.from(numbers);
+  }  
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));

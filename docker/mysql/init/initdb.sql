@@ -56,6 +56,7 @@ create table `courses`
     name        VARCHAR(45)  not null,
     description       VARCHAR(45) null,
     level       VARCHAR(10) not null,
+    photo       VARCHAR(100) null, 
     constraint achievemetnts_pk
         primary key (id_course)
 );

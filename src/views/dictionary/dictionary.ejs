@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
-<%- include('head'); -%>
+<%- include('../main/head'); -%>
 
   <body style="background-image: url('/fon_main.jpg')">
-    <%- include('header'); -%>
+    <%- include('../main/header'); -%>
       <div class="wrapper_area" id="dictionary">
         <div class="ag-format-container" style="width: 100%;">
           <table class="table">
@@ -24,9 +24,9 @@
           </table>
         </div>
       </div>
-      <%- include('pagination', {count:count}); -%>
-      <%- include('panelAuthorization'); -%>
-        <%- include('scripts'); -%>
+      <%- include('../other/pagination', {count:count}); -%>
+      <%- include('../other/panelAuthorization'); -%>
+        <%- include('../main/scripts'); -%>
   </body>
 
 </html>
