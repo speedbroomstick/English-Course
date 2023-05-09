@@ -1,6 +1,10 @@
 SET NAMES 'utf8mb4';
 INSERT INTO users (login,password) VALUES ('LeonidGovorec','Mastaskas4321'),('AdminPanelQ','AdminPanelQ');
 INSERT INTO `group` (name) VALUES ('Oxford3000-A1'),('MyPersonalWords');
+INSERT INTO `courses` (name,description,level,photo) VALUES ('English Conversation Course','Прокачает ваш разговорный',2,'gs://english-course-18e54.appspot.com/big-ben.jpg'),
+                                                            ('Grammar Basics','Времена, предлоги, неправильные глаголы',3,'gs://english-course-18e54.appspot.com/gramar.jpg'),
+                                                            ('Learn to write','Пишите и тренеруйте навыки написания',2,'gs://english-course-18e54.appspot.com/english.jpg');
+
 INSERT INTO words (word,translation,example,idGroup) VALUES ('about','о, около, приблизительно','What are tou talking about?(О чем ты говоришь?)',1),
                                                             ('above','над, выше, вышеуказанное','You-re not above the law(Ты не выше закона)',1),
                                                             ('across','через, поперек, сквозь','We deove across the city(Мы ехали через город)',1),

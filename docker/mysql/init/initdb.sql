@@ -53,10 +53,10 @@ create table `CompletedAchievements`
 create table `courses`
 (
     id_course     int auto_increment,
-    name        VARCHAR(45)  not null,
-    description       VARCHAR(45) null,
-    level       VARCHAR(10) not null,
-    photo       VARCHAR(100) null, 
+    name        VARCHAR(65)  not null,
+    description       VARCHAR(65) null,
+    level       INT not null,
+    photo       VARCHAR(500) null, 
     constraint achievemetnts_pk
         primary key (id_course)
 );
@@ -89,7 +89,7 @@ create table `questionForTest`
     idquestion     int auto_increment,
     question        VARCHAR(45)  not null,
     answer      VARCHAR(45) not null,
-    otherQuestionAnswer      VARCHAR(100) not null,
+    otherQuestionAnswer      VARCHAR(100) null,
     test_id       int not null,
     constraint question_pk
         primary key (idquestion),
