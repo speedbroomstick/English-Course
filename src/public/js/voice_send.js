@@ -1,57 +1,51 @@
-const startButton = document.getElementById('start-recording');
-const stopButton = document.getElementById('stop-recording');
-const recordedAudio = document.getElementById('recorded-audio');
+const startButton = document.getElementById("circlein");
+const outlineElement = document.querySelector(".outline");
 
 let mediaRecorder;
 let chunks = [];
+let switcher = true;
 
-// запустить запись
-startButton.addEventListener('click', function() {
-  startButton.disabled = true;
-  stopButton.disabled = false;
-  chunks = [];
+startButton.addEventListener("click", function () {
+  if (switcher) {
+    switcher = false;
+    chunks = [];
 
-  navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(function(stream) {
-      mediaRecorder = new MediaRecorder(stream);
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(function (stream) {
+        mediaRecorder = new MediaRecorder(stream);
 
-      mediaRecorder.ondataavailable = function(e) {
-        chunks.push(e.data);
-      }
+        mediaRecorder.ondataavailable = function (e) {
+          chunks.push(e.data);
+        };
 
-      mediaRecorder.onstop = function(e) {
-        const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-        const audioURL = URL.createObjectURL(blob);
-        recordedAudio.src = audioURL;
+        mediaRecorder.onstop = function (e) {
+          outlineElement.classList.remove("active"); 
+          const audioBlob = new Blob(chunks, { type: "audio/webm" });
+          const formData = new FormData();
+          formData.append("audioStream", audioBlob);
 
-        const formData = new FormData();
-        formData.append('audio', blob, 'audio.ogg');
+          fetch("http://localhost:3000/upload-audio", {
+            method: "POST",
+            body: formData
+          })
+            .then(function (response) {
+              console.log("Audio upload response:", response);
+            })
+            .catch(function (error) {
+              console.error("Audio upload error:", error);
+            });
+        };
 
-        fetch('/upload-audio', {
-          method: 'POST',
-          body: formData
-        })
-        .then(function(response) {
-          console.log('Аудио файл успешно отправлен на сервер');
-        })
-        .catch(function(error) {
-          console.error('Ошибка при отправке аудио файла на сервер:', error);
-        });
-      }
-
-      mediaRecorder.start();
-    })
-    .catch(function(error) {
-      console.error('Ошибка доступа к микрофону:', error);
-    });
-});
-
-// остановить запись
-stopButton.addEventListener('click', function() {
-  startButton.disabled = false;
-  stopButton.disabled = true;
-
-  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.start();
+        outlineElement.classList.add("active");
+      })
+      .catch(function (error) {
+        console.error("Ошибка доступа к микрофону:", error);
+      });
+  } else {
+    switcher = true;
     mediaRecorder.stop();
+    outlineElement.classList.remove("active");
   }
 });

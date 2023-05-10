@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const socketIO = require("socket.io");
 const path = require("path");
+const ChatGPT = require("./app/ChatGPT");
 
 const server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -26,7 +27,7 @@ app.use("/", courses);
 
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   res.render("main/main");
 });
 io.on("connection", (socket) => {

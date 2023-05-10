@@ -1,2 +1,4 @@
 .env
 src/node_modules
+src/uploads
+src/app/little_carp.mp3
