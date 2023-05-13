@@ -1,7 +1,9 @@
 .box {
-	position: absolute;
-  top: 50%;
+	position: relative;
+  margin-top: 40px;
+  bottom: 40px; /* Значение может быть изменено в зависимости от желаемого отступа */
   left: 50%;
+  transform: translateX(-50%); /* Центрирование кнопки горизонтально */
 }
 
 .object {

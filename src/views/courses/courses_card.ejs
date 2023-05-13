@@ -1,13 +1,10 @@
 <% dataCourses.forEach((course)=> { %>
-<div class="swiper-slide card">
+<div class="swiper-slide card" style="height: auto;">
   <div class="card-content">
     <div class="image">
       <img src="<%= course.photo %>" alt="" />
     </div>
     <div class="social-media">
-      <i class="fa-brands fa-facebook"></i>
-      <i class="fa-brands fa-twitter"></i>
-      <i class="fa-thin fa-microphone"></i>
     </div>
     <div class="name-profession">
       <span class="name"><%= course.name %></span>
@@ -20,6 +17,7 @@
     </div>
     <div class="button">
       <form action="courses_begin" method="get">
+        <input type="hidden" name="courseId" value="<%= course.id_course %>">
         <button type="submit" class="aboutMe">Begin</button>
       </form>
     </div>

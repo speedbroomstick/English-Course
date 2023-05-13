@@ -4,6 +4,19 @@ INSERT INTO `group` (name) VALUES ('Oxford3000-A1'),('MyPersonalWords');
 INSERT INTO `courses` (name,description,level,photo) VALUES ('English Conversation Course','Прокачает ваш разговорный',2,'gs://english-course-18e54.appspot.com/big-ben.jpg'),
                                                             ('Grammar Basics','Времена, предлоги, неправильные глаголы',3,'gs://english-course-18e54.appspot.com/gramar.jpg'),
                                                             ('Learn to write','Пишите и тренеруйте навыки написания',2,'gs://english-course-18e54.appspot.com/english.jpg');
+INSERT INTO `tests` (name,id_course,description) VALUES ('Проверим твое произношение',1,'Просто произносите, что видете');
+
+INSERT INTO `questionForTest` (question,answer,type_q,test_id) VALUES ('window','window','audio',1),
+                                                                      ('question','question','audio',1),
+                                                                      ('black','black','audio',1),
+                                                                      ('course','course','audio',1),
+                                                                      ('movie','movie','audio',1),
+                                                                      ('picture','picture','audio',1),
+                                                                      ('fall','fall','audio',1),
+                                                                      ('pig','pig','audio',1),
+                                                                      ('cat','cat','audio',1),
+                                                                      ('dog','dog','audio',1),
+                                                                      ('carpet','carpet','audio',1);
 
 INSERT INTO words (word,translation,example,idGroup) VALUES ('about','о, около, приблизительно','What are tou talking about?(О чем ты говоришь?)',1),
                                                             ('above','над, выше, вышеуказанное','You-re not above the law(Ты не выше закона)',1),

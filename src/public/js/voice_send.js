@@ -1,10 +1,11 @@
+import { socket } from "/js/authorization.js";
 const startButton = document.getElementById("circlein");
 const outlineElement = document.querySelector(".outline");
 
 let mediaRecorder;
 let chunks = [];
 let switcher = true;
-
+let width = 0;
 startButton.addEventListener("click", function () {
   if (switcher) {
     switcher = false;
@@ -24,6 +25,8 @@ startButton.addEventListener("click", function () {
           const audioBlob = new Blob(chunks, { type: "audio/webm" });
           const formData = new FormData();
           formData.append("audioStream", audioBlob);
+          formData.append("numberQuestion", $("#number_question").val());
+          formData.append("chetQuestions", $("#chet_questions").val());
 
           fetch("http://localhost:3000/upload-audio", {
             method: "POST",
@@ -49,3 +52,21 @@ startButton.addEventListener("click", function () {
     outlineElement.classList.remove("active");
   }
 });
+
+socket.on(
+  "answer_from_voice",
+  (chetQuestions, questions, order, isAnswerCorrect) => {
+    console.log(chetQuestions);
+    console.log(questions);
+    console.log(order);
+    $("#questionH2").text(questions[order[chetQuestions]].question);
+    $("#number_question").val(order[chetQuestions]);
+    $("#chet_questions").val(chetQuestions);
+    if (isAnswerCorrect) {
+      width += 100 / order.length;
+      console.log(width);
+      $('.progress-bar').css('width', width+'%');
+    }
+    $("#questionH2").hide().fadeIn(500);
+  }
+);

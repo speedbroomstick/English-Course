@@ -22,7 +22,7 @@ $(document).on("input", ".answer-input", function () {
 });
 socket.on(
   "answer_level2",
-  (chetQuestions, allWords, order, orderOptions, isAnswerCorrect) => {
+  (chetQuestions, allWords, order, isAnswerCorrect) => {
     $("#finishInput").val("").blur();
     $("#question").val(allWords[order[chetQuestions]].translation);
     $("#questionH2").text(allWords[order[chetQuestions]].translation);
