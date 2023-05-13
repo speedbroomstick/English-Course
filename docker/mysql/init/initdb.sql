@@ -76,9 +76,8 @@ create table `tests`
 (
     idtest     int auto_increment,
     name        VARCHAR(45)  not null,
-    description       VARCHAR(45) null,
+    description       VARCHAR(65) null,
     id_course       int not null,
-    state VARCHAR(10) not NULL,
     constraint test_pk
         primary key (idtest),
     constraint fk_course
@@ -89,6 +88,7 @@ create table `questionForTest`
     idquestion     int auto_increment,
     question        VARCHAR(45)  not null,
     answer      VARCHAR(45) not null,
+    type_q VARCHAR(45) not null,
     otherQuestionAnswer      VARCHAR(100) null,
     test_id       int not null,
     constraint question_pk

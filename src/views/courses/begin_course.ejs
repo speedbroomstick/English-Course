@@ -3,13 +3,24 @@
   <%- include('../main/head'); -%>
   <body style="background-image: url('/fon_main.jpg')">
     <%- include('../main/header'); -%>
-    <div class="quiz-container">
+      <div class="quiz-container">
         <div class="quiz-card">
           <div class="score-container">
-            <%- include('level_test_course/voice_test_level.ejs'); -%>
+            <div class="progress" role="progressbar" aria-label="Animated green example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="quiz-question">
+            <input type="hidden" id="chet_questions" value="<%= chetQuestions %>">
+            <input type="hidden" id="number_question" value="<%= order[chetQuestions] %>">
+            <h3><%= test[0].name %></h3>
+            <h4><%= test[0].description %></h4>
+             <h2 id="questionH2"><%= questions[order[chetQuestions]].question %></h2>
+          </div>
+          <%- include('level_test_course/voice_test_level.ejs'); -%>
         </div>
       </div>
-    <%- include('../other/panelAuthorization'); -%> <%-
-    include('../main/scripts'); -%>
+    <%- include('../other/panelAuthorization'); -%> 
+    <%- include('../main/scripts'); -%>
   </body>
 </html>

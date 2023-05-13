@@ -116,6 +116,9 @@
     color: rgb(102, 204, 255);
   
   }
+  .swiper-slide{
+    height: auto;
+  }
   .swiper-pagination-bullet{
     height: 7px;
     width: 26px;

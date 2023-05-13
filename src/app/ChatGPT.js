@@ -18,10 +18,14 @@ class ChatGPT {
 
       const resp = await this.openai.createTranscription(
         fs.createReadStream(filePath),
-        "whisper-1"
+        "whisper-1",
+        "Remove all punctuation from your answer",
+        "json",
+        0,
+       "en"
       );
 
-      return resp.data;
+      return resp.data.text;
     } catch (error) {
       console.log("ОШИБКА");
       if (error.response) {
