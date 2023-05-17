@@ -58,4 +58,24 @@
   video::-webkit-media-controls-overlay-play-button {
     display: none !important;
   }
+  @media screen and (max-width: 768px) {
+    .video-container {
+      width: 100%;
+      height: auto;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    
+    .video-container:before {
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+    }
+  }
   
+  @media screen and (min-width: 1024px) {
+    .video-container {
+      width: 100%;
+      height: auto;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  }

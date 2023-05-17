@@ -128,3 +128,46 @@
     border-radius: 25px;
   }
     
+  @media screen and (max-width: 768px) {
+  section {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+  
+  .container {
+    border-radius: 10px;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .card::before {
+    border-top-left-radius: 5px;
+  }
+  
+  .card .card-content {
+    padding: 20px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  section {
+    width: 100%;
+    height: auto;
+    padding: 40px;
+  }
+  
+  .container {
+    border-radius: 20px;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
