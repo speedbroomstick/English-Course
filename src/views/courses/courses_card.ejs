@@ -1,26 +1,24 @@
-<% dataCourses.forEach((course)=> { %>
+<% datas.forEach((data)=> { %>
 <div class="swiper-slide card" style="height: auto;">
   <div class="card-content">
     <div class="image">
-      <img src="<%= course.photo %>" alt="" />
-    </div>
-    <div class="social-media">
+      <img src="<%= data.photo %>" alt="" />
     </div>
     <div class="name-profession">
-      <span class="name"><%= course.name %></span>
-      <span class="profession"><%= course.description %></span>
-    </div>
-    <div class="rating">
-      <% for(let i=0;i<course.level;i++){ %>
-      <i class="fa-solid fa-star"></i>
-      <% }%>
+      <span class="name"><%= data.name %></span>
+      <span class="profession"><%= data.description %></span>
+      <% if(progres){ %>
+      <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+        <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
+      </div> 
+      <% } %>
     </div>
     <div class="button">
-      <form action="courses_begin" method="get">
-        <input type="hidden" name="courseId" value="<%= course.id_course %>">
-        <button type="submit" class="aboutMe">Begin</button>
+      <form action="<%= url %>" method="get">
+        <input type="hidden" name="Id" value="<%= data[key] %>">
+        <button type="submit" class="aboutMe">Select</button>
       </form>
     </div>
-  </div>
+  </div>   
 </div>
 <% });%>

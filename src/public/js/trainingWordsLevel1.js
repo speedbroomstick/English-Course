@@ -1,19 +1,22 @@
 import { socket } from "/js/authorization.js";
+import { testModule } from "/js/app/testModule.js";
+
+let test = new testModule();
+
 const but1 = $("#but1").click(function () {
-  clickOption($("#but1").val());
+  test.sendAnswerToServer($("#but1").val(),"http://localhost:3000/chek_answer_level1");
 });
 const but2 = $("#but2").click(function () {
-  clickOption($("#but2").val());
+  test.sendAnswerToServer($("#but2").val(),"http://localhost:3000/chek_answer_level1");
 });
 const but3 = $("#but3").click(function () {
-  clickOption($("#but3").val());
+  test.sendAnswerToServer($("#but3").val(),"http://localhost:3000/chek_answer_level1");
 });
 const but4 = $("#but4").click(function () {
-  clickOption($("#but4").val());
+  test.sendAnswerToServer($("#but4").val(),"http://localhost:3000/chek_answer_level1");
 });
-socket.on(
-  "answer_level1",
-  (chetQuestions, allWords, order, orderOptions, isAnswerCorrect) => {
+socket.on("answer_level1",(isAnswerCorrect,allWords,order,orderOptions,chetQuestions,countToAdd) => {
+    test.checkAnswer(isAnswerCorrect,allWords[order[chetQuestions]].translation,countToAdd);
     $("#question").val(allWords[order[chetQuestions]].word);
     $("#questionH2").text(allWords[order[chetQuestions]].word);
     $("#number_question").val(order[chetQuestions]);
@@ -31,40 +34,6 @@ socket.on(
       .val(orderOptions[chetQuestions][3])
       .text(orderOptions[chetQuestions][3]);
 
-    if (isAnswerCorrect) {
-      $(".correct").text((index, text) => parseInt(text) + 1);
-    } else {
-      $(".total").text((index, text) => parseInt(text) + 1);
-      let wrongHTML =
-        '<div id="notification">' +
-        '<span id="text">Правильный ответ:' +
-        allWords[order[chetQuestions - 1]].translation +
-        "</span>" +
-        "</div>";
-      $(wrongHTML).prependTo("body").fadeIn(500).fadeOut(3000);
-    }
-
     $("#questionH2, #but1, #but2, #but3, #but4").hide().fadeIn(500);
   }
 );
-function clickOption(answer) {
-  let question = $("#question").val();
-  let numberQuestion = $("#number_question").val();
-  let chetQuestions = $("#chet_questions").val();
-  $.ajax({
-    url: "http://localhost:3000/chek_answer_level1",
-    method: "GET",
-    data: {
-      answer: answer,
-      question: question,
-      numberQuestion: numberQuestion,
-      chetQuestions: chetQuestions,
-    },
-    success: function (response) {
-      console.log(response);
-    },
-    error: function (xhr, status, error) {
-      console.log(error);
-    },
-  });
-}

@@ -21,14 +21,13 @@ module.exports = (io) => {
   router.get("/courses", async (req, res) => {
     courses = new Courses(new MySql(), new FireBase());
     let dataCourses = await courses.getCourses();
-    res.render("courses/courses", { dataCourses: dataCourses });
+    res.render("courses/courses", { datas: dataCourses });
   });
 
   router.get("/courses_begin", async (req, res) => {
-    const tests = await courses.getTests(req.query.courseId);
-    const questions = await courses.getQuestionForTests(req.query.courseId);
+    const tests = await courses.getTests(req.query.Id);
     test = new Test(
-      await courses.getQuestionForTests(req.query.courseId),
+      await courses.getQuestionForTests(2),
       false
     );
     res.render("courses/begin_course", {
@@ -46,16 +45,18 @@ module.exports = (io) => {
       const audioStream = req.file.path;
       const chetQuestions = req.body.chetQuestions;
       const chatGPT = new ChatGPT(process.env.OPENAI_API_KEY);
+      const answerUser = await chatGPT.get(audioStream);
       await io.emit(
         "answer_from_voice",
-        parseInt(chetQuestions) + 1,
+        await test.checkAnswer(
+          answerUser,
+          "answer"
+        ),
+        test.chetQuestions,
         test.data,
         test.order,
-        await test.checkAnswer(
-          await chatGPT.get(audioStream),
-          chetQuestions,
-          "answer"
-        )
+        test.countToAdd,
+        answerUser
       );
       res.send("Correct!");
     }

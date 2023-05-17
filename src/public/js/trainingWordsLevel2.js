@@ -1,14 +1,18 @@
 import { socket } from "/js/authorization.js";
+import { testModule } from "/js/app/testModule.js";
+
+let test = new testModule();
+
 $(".answer-input").first().focus();
 $("#finishInput").on("input", (event) => {
   event.preventDefault();
   let answer = "";
   for (let i = 0; i < parseInt($("#countLeter").val()); i++) {
     answer += $("#optionInput" + i).val();
+    $("#optionInput" + i).val("");
   }
   answer += $("#finishInput").val();
-  console.log(answer);
-  clickOption(answer);
+  test.sendAnswerToServer(answer,"http://localhost:3000/chek_answer_level2");
 });
 $(document).on("input", ".answer-input", function () {
   if ($(this).val().length === 1) {
@@ -20,9 +24,8 @@ $(document).on("input", ".answer-input", function () {
     }
   }
 });
-socket.on(
-  "answer_level2",
-  (chetQuestions, allWords, order, isAnswerCorrect) => {
+socket.on("answer_level2",(isAnswerCorrect,allWords,order,chetQuestions,countToAdd) => {
+    test.checkAnswer(isAnswerCorrect,allWords[order[chetQuestions]].word,countToAdd);
     $("#finishInput").val("").blur();
     $("#question").val(allWords[order[chetQuestions]].translation);
     $("#questionH2").text(allWords[order[chetQuestions]].translation);
@@ -39,39 +42,6 @@ socket.on(
     $("#optionInputDIV").html(html).hide().fadeIn();
     $(".answer-input").first().focus();
 
-    if (isAnswerCorrect) {
-      $(".correct").text((index, text) => parseInt(text) + 1);
-    } else {
-      $(".total").text((index, text) => parseInt(text) + 1);
-      let wrongHTML =
-        '<div id="notification">' +
-        '<span id="text">Правильный ответ:' +
-        allWords[order[chetQuestions - 1]].word +
-        "</span>" +
-        "</div>";
-      $(wrongHTML).prependTo("body").fadeIn(500).fadeOut(3000);
-    }
     $("#questionH2").hide().fadeIn(500);
   }
 );
-function clickOption(answer) {
-  let question = $("#question").val();
-  let numberQuestion = $("#number_question").val();
-  let chetQuestions = $("#chet_questions").val();
-  $.ajax({
-    url: "http://localhost:3000/chek_answer_level2",
-    method: "GET",
-    data: {
-      answer: answer,
-      question: question,
-      numberQuestion: numberQuestion,
-      chetQuestions: chetQuestions,
-    },
-    success: function (response) {
-      console.log(response);
-    },
-    error: function (xhr, status, error) {
-      console.log(error);
-    },
-  });
-}

@@ -6,7 +6,7 @@
     <% if(level == 1){ %>
     <%- include('level1/card_level1',{allWords:allWords,order:order, chetQuestions:chetQuestions,orderOptions:orderOptions}); -%> 
     <% }else{ %>
-    <%- include('level2/card_level2',{allWords:allWords,order:order, chetQuestions:chetQuestions,orderOptions:orderOptions}); -%> 
+    <%- include('level2/card_level2',{allWords:allWords,order:order, chetQuestions:chetQuestions}); -%> 
     <% } %>
     <%- include('../../other/panelAuthorization'); -%> 
     <%- include('../../main/scripts'); -%>

@@ -1,4 +1,5 @@
   section{
+    font-family: "Your Thin and Elegant Font", sans-serif;
     position: relative;
     height: 500px; 
     width: 1075px;
@@ -42,6 +43,7 @@
     border-top-left-radius: 10px;
   }
   .card .card-content{
+    text-align: center;
     position: relative;
     display: flex;
     align-items: center;

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<%- include('../main/head'); -%>
+
+  <body style="background-image: url('/fon_main.jpg')">
+    <%- include('../main/header'); -%>
+    <section>
+        <div class="swiper mySwiper container">
+          <div class="swiper-wrapper content">
+            <%- include('../courses/courses_card',{datas:datas,url:'show_words',key:'idGroup',progres: false}); -%>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </section>
+      <%- include('../other/panelAuthorization'); -%>
+        <%- include('../main/scripts'); -%>
+  </body>
+
+</html>

@@ -1,8 +1,8 @@
 <nav aria-label="...">
     <ul class="pagination">
-      <li class="page-item active"><a class="page-link" href="/dictionary?page=1">1</a></li>
+      <li class="page-item active"><a class="page-link" href="/show_words_next?page=1">1</a></li>
       <% for(let i=0;i<count-1;i++){ %>
-        <li class="page-item"><a class="page-link" href="/dictionary?page=<%= i+2 %>"><%= i+2 %></a></li>
+        <li class="page-item"><a class="page-link" href="/show_words_next?page=<%= i+2 %>"><%= i+2 %></a></li>
           <% }%>
     </ul>
   </nav>

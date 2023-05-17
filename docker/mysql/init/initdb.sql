@@ -65,6 +65,7 @@ create table `CompletedCourses`
     idCompletedCourses     int auto_increment,
     idUser        INT  not null,
     idCourse       INT not null,
+    procent INT not null,
     constraint ComCours_pk
         primary key (idCompletedCourses),
     constraint fk_user2

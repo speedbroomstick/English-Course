@@ -1,11 +1,14 @@
 import { socket } from "/js/authorization.js";
+import { testModule } from "/js/app/testModule.js";
+
 const startButton = document.getElementById("circlein");
 const outlineElement = document.querySelector(".outline");
+const test = new testModule();
 
 let mediaRecorder;
 let chunks = [];
 let switcher = true;
-let width = 0;
+
 startButton.addEventListener("click", function () {
   if (switcher) {
     switcher = false;
@@ -55,18 +58,12 @@ startButton.addEventListener("click", function () {
 
 socket.on(
   "answer_from_voice",
-  (chetQuestions, questions, order, isAnswerCorrect) => {
-    console.log(chetQuestions);
-    console.log(questions);
-    console.log(order);
+  (isAnswerCorrect,chetQuestions, questions, order,countToAdd,answerUser) => {
+    test.checkAnswer(isAnswerCorrect,answerUser,countToAdd,"Ваш ввод был:");
     $("#questionH2").text(questions[order[chetQuestions]].question);
     $("#number_question").val(order[chetQuestions]);
     $("#chet_questions").val(chetQuestions);
-    if (isAnswerCorrect) {
-      width += 100 / order.length;
-      console.log(width);
-      $('.progress-bar').css('width', width+'%');
-    }
     $("#questionH2").hide().fadeIn(500);
+
   }
 );
