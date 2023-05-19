@@ -55,7 +55,7 @@ $("#knopocka_login").click(function () {
 
   export const socket = io();
   socket.on("authorization", (data) => {
-    if(data == true){
+    if(data === true){
     alert('Успешно!');
     const username = getCookie('username'); 
     if(username){

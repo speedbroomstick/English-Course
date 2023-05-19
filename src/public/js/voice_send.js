@@ -59,15 +59,19 @@ startButton.addEventListener("click", function () {
 socket.on(
   "answer_from_voice",
   (isAnswerCorrect,chetQuestions, questions, order,countToAdd,answerUser,video) => {
-
+    test.checkAnswer(isAnswerCorrect,answerUser,countToAdd,"courses_end","courses","Ваш ввод был:");
     $('.tooltip-text').text(questions[order[chetQuestions]].answer);
-
-    test.checkAnswer(isAnswerCorrect,answerUser,countToAdd,"Ваш ввод был:");
     $("#questionH2").text(questions[order[chetQuestions]].question);
     $("#number_question").val(order[chetQuestions]);
     $("#chet_questions").val(chetQuestions);
-    $('#my-video').attr('src', video[parseInt(questions[order[chetQuestions]].question)-1].link);
-    $('#my-video').get(0).load();    
+    console.log(video);
+    console.log(questions);
+    console.log(order);
+    console.log(chetQuestions);
+    console.log(video[parseInt(questions[order[chetQuestions]].question)-1].link);
+    $('source').attr('src', video[parseInt(questions[order[chetQuestions]].question)-1].link);
+    var videoElement = $('#my-video')[0];
+    videoElement.load();
     $('.video-container').hide().fadeIn(500);
     $("#questionH2").hide().fadeIn(500);
   }

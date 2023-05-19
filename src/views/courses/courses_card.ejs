@@ -1,24 +1,24 @@
-<% datas.forEach((data)=> { %>
+<% for(var i = 0; i < datas.length; i++) { %>
 <div class="swiper-slide card" style="height: auto;">
   <div class="card-content">
     <div class="image">
-      <img src="<%= data.photo %>" alt="" />
+      <img src="<%= datas[i].photo %>" alt="" />
     </div>
     <div class="name-profession">
-      <span class="name"><%= data.name %></span>
-      <span class="profession"><%= data.description %></span>
+      <span class="name"><%= datas[i].name %></span>
+      <span class="profession"><%= datas[i].description %></span>
       <% if(progres){ %>
       <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-        <div class="progress-bar bg-info text-dark" style="width: 50%">50%</div>
+        <div class="progress-bar bg-info text-dark" style="width: <%= progresCourses[i].procent %>%"><%= progresCourses[i].procent %>%</div>
       </div> 
       <% } %>
     </div>
     <div class="button">
       <form action="<%= url %>" method="get">
-        <input type="hidden" name="Id" value="<%= data[key] %>">
+        <input type="hidden" name="Id" value="<%= datas[i][key] %>">
         <button type="submit" class="aboutMe">Select</button>
       </form>
     </div>
   </div>   
 </div>
-<% });%>
+<% }%>

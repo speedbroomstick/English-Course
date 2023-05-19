@@ -1,5 +1,5 @@
 SET NAMES 'utf8mb4';
-INSERT INTO users (login,password) VALUES ('LeonidGovorec','Mastaskas4321'),('AdminPanelQ','AdminPanelQ');
+INSERT INTO users (login,password) VALUES ('LeonidGovorec','LeonidGovorec'),('AdminPanelQ','AdminPanelQ');
 INSERT INTO `group` (name,photo,description) VALUES ('Oxford3000-A1','gs://english-course-18e54.appspot.com/A1.png','Слова уровня А1'),
                                                     ('MyPersonalWords','gs://english-course-18e54.appspot.com/myPersonal.jpg','Моя персональная подборка');
 INSERT INTO `courses` (name,description,level,photo) VALUES ('English Conversation Course','Прокачает ваш разговорный',2,'photo/big-ben.jpg'),
@@ -7,6 +7,7 @@ INSERT INTO `courses` (name,description,level,photo) VALUES ('English Conversati
                                                             ('Learn to write','Пишите и тренеруйте навыки написания',2,'photo/english.jpg');
 INSERT INTO `tests` (name,id_course,description) VALUES ('Проверим твое произношение',1,'Просто произносите, что видете'),
                                                         ('Посмотрим твое восприятие',1,'Произносите, что услышите на видео');
+INSERT INTO `CompletedCourses` (idUser,idCourse,procent) VALUES (1,1,0),(1,2,40),(1,2,90);
 
 INSERT INTO `video` (link,description,test_id) VALUES ('wednesday/Wednesday1.mp4','',2),
                                                       ('wednesday/Wednesday2.mp4','',2),
@@ -36,9 +37,9 @@ INSERT INTO `questionForTest` (question,answer,type_i,type_oi,test_id) VALUES ('
                                                                       ('5','And spoil the surprise?','audio','video',2),
                                                                       ('6',"Speaking of surprises.",'audio','video',2),
                                                                       ('7',"your costume's in the tent. Costume?",'audio','video',2),
-                                                                      ('8','OMG, you look purfect!','audio','video',2),
+                                                                      ('8','OMG, you look perfect!','audio','video',2),
                                                                       ('9','Only thing, where are your whiskers?','audio','video',2),
-                                                                      ('10',"Ask again, and you'll be down to eight lives.",'audio','video',2);
+                                                                      ('10',"Ask again, and you'll be down to 8 lives.",'audio','video',2);
 
 INSERT INTO words (word,translation,example,idGroup) VALUES ('about','о, около, приблизительно','What are tou talking about?(О чем ты говоришь?)',1),
                                                             ('above','над, выше, вышеуказанное','You-re not above the law(Ты не выше закона)',1),

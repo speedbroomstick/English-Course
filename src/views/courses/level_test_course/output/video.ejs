@@ -33,5 +33,7 @@
             </li>
         </ul>
     </div>
-    <video id="#my-video" src="<%= video[parseInt(questions[order[chetQuestions]].question)-1].link %>"></video>
+    <video id="my-video">
+        <source src="<%= video[parseInt(questions[order[chetQuestions]].question)-1].link %>" type="video/mp4">
+    </video>
 </div>

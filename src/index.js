@@ -36,6 +36,7 @@ io.on("connection", (socket) => {
 
 app.get("/exit", (req, res) => {
   res.clearCookie("username");
+  res.clearCookie("idUser");
   res.render("main/main");
 });
 

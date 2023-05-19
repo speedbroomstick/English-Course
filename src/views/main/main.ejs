@@ -18,6 +18,12 @@
   </head>
   <body style="background-image: url('/fon_main.jpg')">
     <%- include('header'); -%>
+    <% if (typeof info !== 'undefined') { %>
+      <div class="alert alert-primary alert-dismissible fade show" role="alert" style="width: 100%;margin-bottom: 0;">
+        <h4 class="alert-heading"><%= info %></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
     <%- include('../other/panelAuthorization'); -%> 
     <script type="module" src="/js/authorization.js"></script>
     <script src="/js/app.js"></script>

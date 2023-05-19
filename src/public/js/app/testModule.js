@@ -3,7 +3,7 @@ export class testModule {
     this.width = 0;
   }
 
-  async checkAnswer(isAnswerCorrect, data,countToAdd,note="Правильный ответ:") {
+  async checkAnswer(isAnswerCorrect, data,countToAdd,url,path,note="Правильный ответ:") {
     if (isAnswerCorrect) {
       this.width += countToAdd;
       $(".progress-bar").css("width", this.width + "%");
@@ -14,12 +14,12 @@ export class testModule {
           "</span>" +
           "</div>";
         $(end).prependTo("body").fadeIn(500).fadeOut(4000);
-        fetch("http://localhost:3000/", {
+        fetch("http://localhost:3000/"+url, {
           method: "GET",
         })
           .then((response) => {
             if (response.ok) {
-              window.location.href = "/";
+              window.location.href = "/"+path;
             } else {
               console.error("Ошибка при получении ответа от сервера.");
             }

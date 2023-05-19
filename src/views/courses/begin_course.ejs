@@ -42,7 +42,7 @@
           <% if(questions[order[chetQuestions]].type_oi == "video"){ %>
             <%- include('level_test_course/output/video.ejs',{video:video,questions:questions,order:order,chetQuestions:chetQuestions}); -%>
           <% }else{ %>
-             <h2 id="questionH2"><%= questions[order[chetQuestions]].question %></h2>
+             <h2 id="questionH2" class="question_course"><%= questions[order[chetQuestions]].question %></h2>
           <% } %>
           <div class="quiz-question">
             <input type="hidden" id="chet_questions" value="<%= chetQuestions %>">

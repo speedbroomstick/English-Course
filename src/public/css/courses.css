@@ -89,3 +89,20 @@
     transform: scale(0.8);
 }
 }
+.question_course {
+  color: #FDFDFD; /* Нежно белый цвет */
+  text-align: center; /* Выравнивание по центру */
+  animation: moveIn 2s infinite ease-in-out alternate; /* Бесконечное движение */
+}
+
+@keyframes moveIn {
+  0% {
+    transform: translateX(-10px); /* Начальное смещение влево */
+  }
+  50% {
+    transform: translateX(10px); /* Смещение вправо */
+  }
+  100% {
+    transform: translateX(-10px); /* Возвращение влево */
+  }
+}

@@ -99,6 +99,7 @@ header{
     display: flex;
     align-items: center;
     margin-right: 20px;
+    position: relative; /* Добавляем позиционирование для панельки */
   }
   
   .avatar {
@@ -110,6 +111,30 @@ header{
     background-size: cover;
     background-position: center;
     margin-right: 10px;
+    transition: transform 0.3s; /* Добавляем анимацию при наведении */
+  }
+  
+  .avatar:hover {
+    transform: scale(1.2); /* Пример анимации, можно изменить */
+  }
+  
+  .profile-menu {
+    position: absolute; /* Позиционируем панельку абсолютно */
+    top: 100%; /* Располагаем панельку под аватаром */
+    right: 50%;
+    width: 80%; /* Задайте нужные размеры */
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    padding: 10px;
+    display: none; /* По умолчанию панелька скрыта */
+  }
+  
+  .avatar:hover + .profile-menu {
+    display: block;
   }
   /* adjust other styles as needed */
   @media screen and (max-width: 768px) {

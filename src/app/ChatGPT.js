@@ -1,6 +1,5 @@
 const { Configuration, OpenAIApi } = require("openai");
 const fs = require("fs");
-const path = require("path");
 const axios = require("axios");
 
 class ChatGPT {
@@ -14,7 +13,7 @@ class ChatGPT {
   async get(audio) {
     try {
       const filePath = audio;
-      axios.defaults.maxBodyLength = Infinity; // Set the maxBodyLength to Infinity
+      axios.defaults.maxBodyLength = Infinity; 
 
       const resp = await this.openai.createTranscription(
         fs.createReadStream(filePath),

@@ -9,6 +9,10 @@ module.exports = (io) => {
   let courses;
   let test;
   let video;
+  let progresCourses;
+  let dataCourses;
+  let selectCourse;
+  let tests;
   require("dotenv").config({ path: __dirname + "/../.env" });
   const multer = require("multer");
   const storage = multer.diskStorage({
@@ -19,19 +23,26 @@ module.exports = (io) => {
   });
 
   const upload = multer({ storage: storage });
+
   router.get("/courses", async (req, res) => {
+    if(req.cookies.username !== undefined){
     courses = new Courses(new MySql(), new FireBase());
-    let dataCourses = await courses.getCourses();
-    res.render("courses/courses", { datas: dataCourses });
+    dataCourses = await courses.getCourses();
+    progresCourses = await courses.getProgres(req.cookies.idUser);
+    res.render("courses/courses", { datas: dataCourses,progresCourses:progresCourses });
+    }
+    else{res.render("main/main",{info:"Доступ к этому разделу доступен только авторизованным пользователям!"})}
   });
 
   router.get("/courses_begin", async (req, res) => {
-    const tests = await courses.getTests(req.query.Id);
+    selectCourse = req.query.Id-1;
+    tests = await courses.getTests(req.query.Id);
+    let numberTest = progresCourses[req.query.Id-1].procent*tests.length/100;
     test = new Test(
-      await courses.getQuestionForTests(2),
+      await courses.getQuestionForTests(numberTest+1),
       false
     );
-    video = await courses.getVideo(2);
+    video = await courses.getVideo(numberTest+1);
 
     res.render("courses/begin_course", {
       test: tests,
@@ -53,7 +64,8 @@ module.exports = (io) => {
         "answer_from_voice",
         await test.checkAnswer(
           answerUser,
-          "answer"
+          "answer",
+          "audio"
         ),
         test.chetQuestions,
         test.data,
@@ -65,5 +77,11 @@ module.exports = (io) => {
       res.send("Correct!");
     }
   );
+  router.get("/courses_end", async (req, res) => {
+    progresCourses[selectCourse].procent +=  1/tests.length*100;
+    courses.changeProcent(progresCourses[selectCourse].procent, req.cookies.idUser, selectCourse+1);
+    res.render("courses/courses", { datas: dataCourses,progresCourses:progresCourses });
+  });
+
   return router;
 };

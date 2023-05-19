@@ -21,7 +21,9 @@ module.exports = (io) => {
     } else {
       let result = await users.getUser(value.username, value.password);
       if (result == true) {
-        res.cookie("username", value.username);
+        let userInformation = await users.getUserInformation(value.username, value.password);
+        res.cookie("username", userInformation[0].login);
+        res.cookie("idUser", userInformation[0].idUser);
       }
       io.emit("authorization", result);
       res.send("Cookie is set");

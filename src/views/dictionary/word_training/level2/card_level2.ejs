@@ -9,7 +9,7 @@
       <input type="hidden" id="chet_questions" value="<%= chetQuestions %>">
       <input type="hidden" id="number_question" value="<%= order[chetQuestions] %>">
       <input type="hidden" id="question" value="<%= allWords[order[chetQuestions]].translation %>">
-      <h2 id="questionH2"><%= allWords[order[chetQuestions]].translation %></h2>
+      <h2 id="questionH2" class="question_course"><%= allWords[order[chetQuestions]].translation %></h2>
     </div>
     <%- include('training_level2',{allWords:allWords, chetQuestions:chetQuestions}); -%> 
   </div>

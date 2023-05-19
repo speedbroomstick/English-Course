@@ -8,8 +8,12 @@ class Courses {
      let result = await this.mySql.query("SELECT * FROM courses");
      return this.decodeUrl(result,'photo');
     }
-    async getTests(idTest){
-      let result = await this.mySql.query("SELECT * FROM tests WHERE idtest = "+idTest);
+    async getProgres(idUser){
+      let result = await this.mySql.query("SELECT * FROM  `CompletedCourses` WHERE idUser = "+idUser);
+      return result;
+    }
+    async getTests(id_course){
+      let result = await this.mySql.query("SELECT * FROM tests WHERE id_course = "+id_course);
       return result;
      }
     async getQuestionForTests(idTest){
@@ -19,6 +23,10 @@ class Courses {
      async getVideo(idTest){
       let result = await this.mySql.query("SELECT * FROM `video` WHERE test_id = "+ idTest);
       return  this.decodeUrl(result,'link');;
+     }
+     async changeProcent(procent, idUser, idCourse){      
+      let result = await this.mySql.query("UPDATE CompletedCourses SET procent = "+ procent +" WHERE idCourse = "+ idCourse +" AND idUser = "+ idUser +";");
+      return result;
      }
     async decodeUrl(data,key){
         for(let i=0; i<data.length;i++){
