@@ -8,6 +8,7 @@ class Test {
     this.chetQuestions = 0;
     this.copyData = [];
     this.countToAdd = 100 / data.length;
+    this.correctAnswer;
     if(key != false){
     this.orderOptions = this.randomAnswersOptions(this.copyForOptios, key);
     }
@@ -22,6 +23,7 @@ class Test {
     } else {
       this.progress[this.chetQuestions] = true;
     }
+    this.correctAnswer = this.data[this.order[this.chetQuestions]][key];
     this.chetQuestions++;
     await this.checkQuestionsEnd(this.chetQuestions);
     return state;

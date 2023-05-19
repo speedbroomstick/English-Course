@@ -24,8 +24,9 @@ $(document).on("input", ".answer-input", function () {
     }
   }
 });
-socket.on("answer_level2",(isAnswerCorrect,allWords,order,chetQuestions,countToAdd) => {
-    test.checkAnswer(isAnswerCorrect,allWords[order[chetQuestions]].word,countToAdd);
+socket.on("answer_level2",(isAnswerCorrect,allWords,order,chetQuestions,countToAdd,correctAnswer) => {
+    
+    test.checkAnswer(isAnswerCorrect,correctAnswer,countToAdd);
     $("#finishInput").val("").blur();
     $("#question").val(allWords[order[chetQuestions]].translation);
     $("#questionH2").text(allWords[order[chetQuestions]].translation);

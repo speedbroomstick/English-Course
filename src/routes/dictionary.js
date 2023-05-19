@@ -23,7 +23,8 @@ module.exports = (io) => {
         test.data,
         test.order,
         test.chetQuestions,
-        test.countToAdd
+        test.countToAdd,
+        test.correctAnswer
       );
       res.send("Answer checked!");
     } catch (err) {
@@ -40,7 +41,8 @@ module.exports = (io) => {
         test.order,
         test.orderOptions,
         test.chetQuestions,
-        test.countToAdd
+        test.countToAdd,
+        test.correctAnswer
       );
       res.send("Answer checked!");
     } catch (err) {

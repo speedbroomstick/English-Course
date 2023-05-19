@@ -8,6 +8,7 @@ module.exports = (io) => {
   const Test = require("../app/Test");
   let courses;
   let test;
+  let video;
   require("dotenv").config({ path: __dirname + "/../.env" });
   const multer = require("multer");
   const storage = multer.diskStorage({
@@ -30,11 +31,14 @@ module.exports = (io) => {
       await courses.getQuestionForTests(2),
       false
     );
+    video = await courses.getVideo(2);
+
     res.render("courses/begin_course", {
       test: tests,
       questions: test.data,
       order: test.order,
-      chetQuestions: 0,
+      chetQuestions: test.chetQuestions,
+      video: video
     });
   });
 
@@ -43,7 +47,6 @@ module.exports = (io) => {
     upload.single("audioStream"),
     async (req, res) => {
       const audioStream = req.file.path;
-      const chetQuestions = req.body.chetQuestions;
       const chatGPT = new ChatGPT(process.env.OPENAI_API_KEY);
       const answerUser = await chatGPT.get(audioStream);
       await io.emit(
@@ -56,7 +59,8 @@ module.exports = (io) => {
         test.data,
         test.order,
         test.countToAdd,
-        answerUser
+        answerUser,
+        video
       );
       res.send("Correct!");
     }

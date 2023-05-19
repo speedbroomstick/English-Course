@@ -2,22 +2,22 @@ SET NAMES 'utf8mb4';
 INSERT INTO users (login,password) VALUES ('LeonidGovorec','Mastaskas4321'),('AdminPanelQ','AdminPanelQ');
 INSERT INTO `group` (name,photo,description) VALUES ('Oxford3000-A1','gs://english-course-18e54.appspot.com/A1.png','Слова уровня А1'),
                                                     ('MyPersonalWords','gs://english-course-18e54.appspot.com/myPersonal.jpg','Моя персональная подборка');
-INSERT INTO `courses` (name,description,level,photo) VALUES ('English Conversation Course','Прокачает ваш разговорный',2,'gs://english-course-18e54.appspot.com/big-ben.jpg'),
-                                                            ('Grammar Basics','Времена, предлоги, неправильные глаголы',3,'gs://english-course-18e54.appspot.com/gramar.jpg'),
-                                                            ('Learn to write','Пишите и тренеруйте навыки написания',2,'gs://english-course-18e54.appspot.com/english.jpg');
+INSERT INTO `courses` (name,description,level,photo) VALUES ('English Conversation Course','Прокачает ваш разговорный',2,'photo/big-ben.jpg'),
+                                                            ('Grammar Basics','Времена, предлоги, неправильные глаголы',3,'photo/gramar.jpg'),
+                                                            ('Learn to write','Пишите и тренеруйте навыки написания',2,'photo/english.jpg');
 INSERT INTO `tests` (name,id_course,description) VALUES ('Проверим твое произношение',1,'Просто произносите, что видете'),
                                                         ('Посмотрим твое восприятие',1,'Произносите, что услышите на видео');
 
-INSERT INTO `video` (link,description,test_id) VALUES ('gs://english-course-18e54.appspot.com/wednesday/Wednesday1.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday2.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday3.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday4.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday5.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday6.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday7.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday8.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday9.mp4','',2),
-                                                      ('gs://english-course-18e54.appspot.com/wednesday/Wednesday10.mp4','',2);
+INSERT INTO `video` (link,description,test_id) VALUES ('wednesday/Wednesday1.mp4','',2),
+                                                      ('wednesday/Wednesday2.mp4','',2),
+                                                      ('wednesday/Wedneday3.mp4','',2),
+                                                      ('wednesday/Wednesday4.mp4','',2),
+                                                      ('wednesday/Wednesday5.mp4','',2),
+                                                      ('wednesday/Wednesday6.mp4','',2),
+                                                      ('wednesday/Wednesday7.mp4','',2),
+                                                      ('wednesday/Wednesday8.mp4','',2),
+                                                      ('wednesday/Wednesday9.mp4','',2),
+                                                      ('wednesday/Wednesday10.mp4','',2);
 
 INSERT INTO `questionForTest` (question,answer,type_i,type_oi,test_id) VALUES ('window','window','audio','text',1),
                                                                       ('question','question','audio','text',1),
@@ -29,16 +29,16 @@ INSERT INTO `questionForTest` (question,answer,type_i,type_oi,test_id) VALUES ('
                                                                       ('cat','cat','audio','text',1),
                                                                       ('dog','dog','audio','text',1),
                                                                       ('carpet','carpet','audio','text',1),
-                                                                      ('1','','audio','video',2),
-                                                                      ('2','question','audio','video',2),
-                                                                      ('3','black','audio','video',2),
-                                                                      ('4','movie','audio','video',2),
-                                                                      ('5','picture','audio','video',2),
-                                                                      ('6','time','audio','video',2),
-                                                                      ('7','pig','audio','video',2),
-                                                                      ('8','cat','audio','video',2),
-                                                                      ('9','dog','audio','video',2),
-                                                                      ('10','carpet','audio','video',2);
+                                                                      ('1','Let him go. You want to end up in the stocks too?','audio','video',2),
+                                                                      ('2','Remember what happened the last time we did this dance?','audio','video',2),
+                                                                      ('3',"We're all set. Good. Thing's in position.",'audio','video',2),
+                                                                      ('4','Wanna tell me what you two were up to tonight?','audio','video',2),
+                                                                      ('5','And spoil the surprise?','audio','video',2),
+                                                                      ('6',"Speaking of surprises.",'audio','video',2),
+                                                                      ('7',"your costume's in the tent. Costume?",'audio','video',2),
+                                                                      ('8','OMG, you look purfect!','audio','video',2),
+                                                                      ('9','Only thing, where are your whiskers?','audio','video',2),
+                                                                      ('10',"Ask again, and you'll be down to eight lives.",'audio','video',2);
 
 INSERT INTO words (word,translation,example,idGroup) VALUES ('about','о, около, приблизительно','What are tou talking about?(О чем ты говоришь?)',1),
                                                             ('above','над, выше, вышеуказанное','You-re not above the law(Ты не выше закона)',1),

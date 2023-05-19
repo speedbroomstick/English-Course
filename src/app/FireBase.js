@@ -35,15 +35,14 @@ class FireBase {
     });
   }
 
-  async getPictureUrl(filename) {
-    const fileRef = ref(this.storage, filename);
-
+  async getPictureUrl(fileUrl) {
     try {
-      const downloadUrl = await getDownloadURL(fileRef);
-      return downloadUrl;
+      const storageRef = ref(this.storage, fileUrl);
+      const downloadURL = await getDownloadURL(storageRef);
+      return downloadURL;
     } catch (error) {
-      console.error(error);
-      throw new Error("Failed to get download URL.");
+      console.error('Ошибка получения ссылки на файл:', error);
+      return null;
     }
   }
 }

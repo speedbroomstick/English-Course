@@ -15,8 +15,8 @@ const but3 = $("#but3").click(function () {
 const but4 = $("#but4").click(function () {
   test.sendAnswerToServer($("#but4").val(),"http://localhost:3000/chek_answer_level1");
 });
-socket.on("answer_level1",(isAnswerCorrect,allWords,order,orderOptions,chetQuestions,countToAdd) => {
-    test.checkAnswer(isAnswerCorrect,allWords[order[chetQuestions]].translation,countToAdd);
+socket.on("answer_level1",(isAnswerCorrect,allWords,order,orderOptions,chetQuestions,countToAdd,correctAnswer) => {
+    test.checkAnswer(isAnswerCorrect,correctAnswer,countToAdd);
     $("#question").val(allWords[order[chetQuestions]].word);
     $("#questionH2").text(allWords[order[chetQuestions]].word);
     $("#number_question").val(order[chetQuestions]);

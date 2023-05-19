@@ -88,7 +88,7 @@ create table `questionForTest`
 (
     idquestion     int auto_increment,
     question        VARCHAR(45)  not null,
-    answer      VARCHAR(45) not null,
+    answer      VARCHAR(100) not null,
     type_oi VARCHAR(45) not null,
     type_i VARCHAR(45) not null,
     otherQuestionAnswer      VARCHAR(100) null,
@@ -112,7 +112,7 @@ create table `rule`
 create table `video`
 (
     idvideo     int auto_increment,
-    link        LONGTEXT  not null,
+    link        VARCHAR(150)  not null,
     description VARCHAR(100) null,
     test_id      int not null,
     constraint video_pk
