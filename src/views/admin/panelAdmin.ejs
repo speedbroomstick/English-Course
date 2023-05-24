@@ -1,0 +1,315 @@
+<div class="container" style="margin-top: 10%; color: antiquewhite">
+  <ul class="nav nav-tabs" id="myTabs">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#courses">Courses</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#dictionary">Dictionary</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#users">Users</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <!-- Courses Tab -->
+    <div id="courses" class="tab-pane fade show active">
+      <ul class="nav nav-tabs" id="CoursesTabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#course">Course</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#tests">Tests</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#questions">Questions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#video">Video</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#rule">Rule</a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <!-- First Section -->
+        <div id="course" class="tab-pane fade show active">
+            <div class="form-group">
+              <label for="courseName">Name:</label>
+              <input
+                type="text"
+                class="form-control"
+                list="datalistOptions"
+                id="courseName"
+                placeholder="Type to search..."
+              />
+              <datalist id="datalistOptions">
+                <% dataCourses.forEach((course)=> { %>
+                <option value="<%= course.name %>"></option>
+                <% });%>
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label for="courseDesc">Description:</label>
+              <input type="text" class="form-control" id="courseDesc" />
+            </div>
+            <div class="form-group">
+              <label for="courseLevel">Level:</label>
+              <select class="form-control" id="courseLevel">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="coursePhoto">Photo:</label>
+              <input type="file" class="form-control-file" id="coursePhoto" />
+            </div>
+            <button type="button" id="coursesAdd" class="btn btn-success">Add</button>
+            <button type="button" id="coursesUpdate" class="btn btn-primary">Update</button>
+            <button type="button" id="coursesDelete" class="btn btn-danger">Delete</button>
+        </div>
+        <!-- Second Section -->
+        <div id="tests" class="tab-pane fade">
+          <form>
+            <div class="form-group">
+              <label for="testName">Name:</label>
+              <input
+              type="text"
+              class="form-control"
+              list="testslistOptions"
+              id="testName"
+              placeholder="Type to search..."
+            />
+            <datalist id="testslistOptions">
+              <% tests.forEach((test)=> { %>
+                <option value="<%= test.name %>"></option>
+                <% });%>
+            </datalist>
+            </div>
+            <div class="form-group">
+              <label for="testDesc">Description:</label>
+              <input type="text" class="form-control" id="testDesc" />
+            </div>
+            <div class="form-group">
+              <label for="testCourse">Course:</label>
+              <select class="form-control" id="testCourse">
+                <% dataCourses.forEach((course)=> { %>
+                  <option value="<%= course.name %>"><%= course.name %></option>
+                  <% });%>
+              </select>
+            </div>
+            <button type="submit"  id="testAdd" class="btn btn-success">Add</button>
+            <button type="submit"  id="testUpdate" class="btn btn-primary">Update</button>
+            <button type="submit"  id="testDelete" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+
+        <!-- Third Section -->
+        <div id="questions" class="tab-pane fade">
+          <form>
+            <div class="form-group">
+              <label for="question">Question:</label>
+              <input
+              type="text"
+              class="form-control"
+              list="questionslistOptions"
+              id="question"
+              placeholder="Type to search..."
+            />
+            <datalist id="questionslistOptions">
+              <% questions.forEach((question)=> { %>
+                <option value="<%= question.question %>"></option>
+                <% });%>
+            </datalist>
+            </div>
+            <div class="form-group">
+              <label for="answer">Answer:</label>
+              <input type="text" class="form-control" id="answer" />
+            </div>
+            <div class="form-group">
+              <label for="inputType">Input Type:</label>
+              <select class="form-control" id="inputType">
+                <option value="audio">audio</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="outputType">Output Type:</label>
+              <select class="form-control" id="outputType">
+                <option value="text">text</option>
+                <option value="video">video</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="testID">Test:</label>
+              <select class="form-control" id="testID">
+                <% tests.forEach((test)=> { %>
+                  <option value="<%= test.name %>"><%= test.name %></option>
+                  <% });%>
+              </select>
+            </div>
+            <button type="submit" id="questionAdd" class="btn btn-success">Add</button>
+            <button type="submit" id="questionUpdate" class="btn btn-primary">Update</button>
+            <button type="submit" id="questionDelete" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+
+        <!-- Fourth Section -->
+        <div id="video" class="tab-pane fade">
+          <form>
+            <div class="form-group">
+              <label for="videoLink">Link:</label>
+              <input type="text" class="form-control" id="videoLink" />
+            </div>
+            <div class="form-group">
+              <label for="videoDesc">Description:</label>
+              <input type="text" class="form-control" id="videoDesc" />
+            </div>
+            <div class="form-group">
+              <label for="videoTest">Test:</label>
+              <select class="form-control" id="videoTest">
+                <option value="test1">Test 1</option>
+                <option value="test2">Test 2</option>
+                <!-- Add more options for tests -->
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">Add</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+
+        <!-- Fifth Section -->
+        <div id="rule" class="tab-pane fade">
+          <form>
+            <div class="form-group">
+              <label for="ruleName">Name:</label>
+              <input type="text" class="form-control" id="ruleName" />
+            </div>
+            <div class="form-group">
+              <label for="ruleText">Text (Large Field):</label>
+              <textarea class="form-control" id="ruleText" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="ruleTest">Test:</label>
+              <select class="form-control" id="ruleTest">
+                <option value="test1">Test 1</option>
+                <option value="test2">Test 2</option>
+                <!-- Add more options for tests -->
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success">Add</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dictionary Tab -->
+    <div id="dictionary" class="tab-pane fade">
+      <ul class="nav nav-tabs" id="dictionaryTabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#groups">Groups</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#words">Words</a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- Groups Section -->
+        <div id="groups" class="tab-pane fade show active">
+          <form>
+            <div class="form-group">
+              <label for="groupName">Name:</label>
+              <input
+              type="text"
+              class="form-control"
+              list="grouplistOptions"
+              id="groupName"
+              placeholder="Type to search..."
+            />
+            <datalist id="grouplistOptions">
+              <% dataDictionaryGroup.forEach((dictionary)=> { %>
+              <option value="<%= dictionary.name %>"></option>
+              <% });%>
+            </datalist>
+            </div>
+            <div class="form-group">
+              <label for="groupPhoto">Photo:</label>
+              <input type="file" class="form-control-file" id="groupPhoto" />
+            </div>
+            <div class="form-group">
+              <label for="groupDesc">Description:</label>
+              <input type="text" class="form-control" id="groupDesc" />
+            </div>
+            <button type="submit" class="btn btn-success">Add</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+
+        <!-- Words Section -->
+        <div id="words" class="tab-pane fade">
+          <form>
+            <div class="form-group">
+              <label for="word">Word:</label>
+              <input
+              type="text"
+              class="form-control"
+              list="wordlistOptions"
+              id="word"
+              placeholder="Type to search..."
+            />
+            <datalist id="wordlistOptions">
+              <% words.forEach((word)=> { %>
+              <option value="<%= word.word %>"></option>
+              <% });%>
+            </datalist>
+            </div>
+            <div class="form-group">
+              <label for="translation">Translation:</label>
+              <input type="text" class="form-control" id="translation" />
+            </div>
+            <div class="form-group">
+              <label for="example">Example:</label>
+              <textarea class="form-control" id="example" rows="5"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Add</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Users Tab -->
+    <div id="users" class="tab-pane fade">
+      <form>
+        <div class="form-group">
+          <label for="login">Login:</label>
+          <input
+          type="text"
+          class="form-control"
+          list="loginlistOptions"
+          id="login"
+          placeholder="Type to search..."
+        />
+        <datalist id="loginlistOptions">
+          <% users.forEach((user)=> { %>
+          <option value="<%= user.login %>"></option>
+          <% });%>
+        </datalist>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="text" class="form-control" id="password" />
+        </div>
+        <button type="submit" class="btn btn-success">Add</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+</div>

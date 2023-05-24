@@ -73,16 +73,18 @@ create table `CompletedCourses`
     constraint fk_courses
         foreign key (idCourse) references `courses` (id_course)
 );
-create table `tests`
-(
-    idtest     int auto_increment,
-    name        VARCHAR(45)  not null,
-    description       VARCHAR(65) null,
-    id_course       int not null,
-    constraint test_pk
-        primary key (idtest),
-    constraint fk_course
-        foreign key (id_course) references `courses` (id_course)
+CREATE TABLE tests (
+    idtest INT AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
+    description VARCHAR(65) NULL,
+    id_course INT NOT NULL,
+    PRIMARY KEY (idtest),
+    CONSTRAINT fk_course
+        FOREIGN KEY (id_course) REFERENCES courses (id_course)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_course_update
+        FOREIGN KEY (id_course) REFERENCES courses (id_course)
+        ON UPDATE CASCADE
 );
 create table `questionForTest`
 (
@@ -93,10 +95,13 @@ create table `questionForTest`
     type_i VARCHAR(45) not null,
     otherQuestionAnswer      VARCHAR(100) null,
     test_id       int not null,
-    constraint question_pk
-        primary key (idquestion),
-    constraint fk_test
-        foreign key (test_id) references `tests` (idtest)
+    PRIMARY KEY (idquestion),
+    CONSTRAINT fk_question
+        FOREIGN KEY (test_id) REFERENCES `tests` (idtest)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_question_update
+        FOREIGN KEY (test_id) REFERENCES `tests` (idtest)
+        ON UPDATE CASCADE
 );
 create table `rule`
 (
@@ -115,8 +120,25 @@ create table `video`
     link        VARCHAR(150)  not null,
     description VARCHAR(100) null,
     test_id      int not null,
-    constraint video_pk
-        primary key (idvideo),
-    constraint fk_test3
-        foreign key (test_id) references `tests` (idtest)
+    PRIMARY KEY (idvideo),
+    CONSTRAINT fk_video
+        FOREIGN KEY (test_id) REFERENCES `tests` (idtest)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_video_update
+        FOREIGN KEY (test_id) REFERENCES `tests` (idtest)
+        ON UPDATE CASCADE
 );
+-- Настройка каскадного удаления
+
+ALTER TABLE CompletedCourses
+ADD CONSTRAINT fk_course4
+FOREIGN KEY (idCourse)
+REFERENCES courses (id_course)
+ON DELETE CASCADE;
+
+-- Настройка каскадного обновления
+ALTER TABLE CompletedCourses
+ADD CONSTRAINT fk_course5
+FOREIGN KEY (idCourse)
+REFERENCES courses (id_course)
+ON UPDATE CASCADE;

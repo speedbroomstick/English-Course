@@ -31,19 +31,21 @@ module.exports = (io) => {
     progresCourses = await courses.getProgres(req.cookies.idUser);
     res.render("courses/courses", { datas: dataCourses,progresCourses:progresCourses });
     }
-    else{res.render("main/main",{info:"Доступ к этому разделу доступен только авторизованным пользователям!"})}
+    else{res.render("main/main",{info:"Доступ к этому разделу доступен только авторизованным пользователям!"});}
   });
 
   router.get("/courses_begin", async (req, res) => {
+    if(req.query.progres >= 100){
+      res.render("main/main",{info:"Этот курс уже завершен, выберите другой из предложенных!"});
+    }
     selectCourse = req.query.Id-1;
     tests = await courses.getTests(req.query.Id);
     let numberTest = progresCourses[req.query.Id-1].procent*tests.length/100;
     test = new Test(
-      await courses.getQuestionForTests(numberTest+1),
+      await courses.getQuestionForTests(tests[numberTest].idtest),
       false
     );
     video = await courses.getVideo(numberTest+1);
-
     res.render("courses/begin_course", {
       test: tests,
       questions: test.data,
@@ -72,7 +74,8 @@ module.exports = (io) => {
         test.order,
         test.countToAdd,
         answerUser,
-        video
+        video,
+
       );
       res.send("Correct!");
     }
@@ -81,6 +84,13 @@ module.exports = (io) => {
     progresCourses[selectCourse].procent +=  1/tests.length*100;
     courses.changeProcent(progresCourses[selectCourse].procent, req.cookies.idUser, selectCourse+1);
     res.render("courses/courses", { datas: dataCourses,progresCourses:progresCourses });
+  });
+
+
+  
+  router.get("/getAllInformationCourse", async (req, res) => {
+    await io.emit("info_course",test.data[test.order[0]].type_oi, test.data, test.order, test.chetQuestions, video);
+    res.send("Ok");
   });
 
   return router;

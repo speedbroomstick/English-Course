@@ -119,6 +119,7 @@
   
   }
   .swiper-slide{
+    margin-right: 0px;
     height: auto;
   }
   .swiper-pagination-bullet{

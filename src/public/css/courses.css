@@ -27,6 +27,9 @@
   animation-timing-function: ease-out;
   animation-iteration-count: infinite;
 }
+.object:hover{
+    transform: scale(0.6);
+}
 .button_microfon {
     width: 60px;
     height: 60px;
@@ -86,7 +89,7 @@
 
 @media screen and (min-width: 1024px) {
   .object {
-    transform: scale(0.8);
+    transform: scale(0.5);
 }
 }
 .question_course {

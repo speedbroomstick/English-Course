@@ -16,7 +16,8 @@ body{
     background-repeat: no-repeat;
 }
 .wrapper{
-    position: relative;
+    position: fixed;
+    z-index: 9999;
     width: 400px;
     height: 440px;
     background: transparent;
@@ -53,7 +54,7 @@ body{
     transform: scale(1);
 }
 .wrapper.active{
-    height: 520px;
+    height: 440px;
 }
 .wrapper .form-box{
     width: 100%;

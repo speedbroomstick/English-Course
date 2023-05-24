@@ -14,7 +14,7 @@ class Test {
     }
   }
 
-  async checkAnswer(answer, key, type="text") {
+  async checkAnswer(answer="try again", key, type="text") {
     let state = false;
     if(type === "audio"){
      let countWords = this.countWords(this.data[this.order[this.chetQuestions]][key]);

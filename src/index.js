@@ -15,6 +15,7 @@ const io = socketIO(server);
 const usersRoutes = require("./routes/users")(io);
 const dictionaryRoutes = require("./routes/dictionary")(io);
 const courses = require("./routes/courses")(io);
+const administrator = require("./routes/administrator")(io);
 
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -24,6 +25,8 @@ app.use(express.static(path.join(__dirname, "node_modules")));
 app.use("/", usersRoutes);
 app.use("/", dictionaryRoutes);
 app.use("/", courses);
+app.use("/", administrator);
+
 
 app.set("view engine", "ejs");
 

@@ -119,8 +119,8 @@ header{
   }
   
   .profile-menu {
-    position: absolute; /* Позиционируем панельку абсолютно */
-    top: 100%; /* Располагаем панельку под аватаром */
+    position: absolute;
+    top: calc(100% + 10px);
     right: 50%;
     width: 80%; /* Задайте нужные размеры */
     background: transparent;
@@ -130,11 +130,43 @@ header{
             backdrop-filter: blur(20px);
     box-shadow: 0 0 30px rgba(0, 0, 0, .5);
     padding: 10px;
-    display: none; /* По умолчанию панелька скрыта */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0s linear 0.3s; /* Плавное появление и исчезновение */
   }
   
-  .avatar:hover + .profile-menu {
-    display: block;
+  .avatar:hover ~ .profile-menu {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s; /* Отключение задержки для показа */
+  }
+  .profile-menu:hover{
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s; 
+  }
+  .avatar-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .progress-bar_level {
+    width: 100%;
+    height: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  
+  .progress_level {
+    height: 100%;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    width: 50%; /* Измените ширину прогресс-бара в соответствии с уровнем пользователя */
   }
   /* adjust other styles as needed */
   @media screen and (max-width: 768px) {
@@ -227,3 +259,62 @@ header{
       margin-right: 15px;
     }
   }  
+
+
+
+  .button_a {
+    display: inline-block;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 20px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .button_a:hover {
+    background-color: #3e8e41;
+  }
+  
+  .button_a:active {
+    background-color: #367133;
+    transform: translateY(2px);
+  }
+  
+  @keyframes pulse_but {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .admin-button {
+    animation: pulse_but 2s infinite;
+  }
+
+
+  .question_course {
+    color: #FDFDFD; /* Нежно белый цвет */
+    text-align: center; /* Выравнивание по центру */
+    animation: moveIn 2s infinite ease-in-out alternate; /* Бесконечное движение */
+  }
+  
+  @keyframes moveIn {
+    0% {
+      transform: translateX(-10px); /* Начальное смещение влево */
+    }
+    50% {
+      transform: translateX(10px); /* Смещение вправо */
+    }
+    100% {
+      transform: translateX(-10px); /* Возвращение влево */
+    }
+  }
