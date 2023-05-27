@@ -5,8 +5,8 @@ module.exports = (io) => {
   const MySql = require("../app/MySql");
   const Joi = require("joi");
   const schema = Joi.object({
-    username: Joi.string().alphanum().min(10).max(24).required(),
-    password: Joi.string().alphanum().required().min(10).max(24),
+    username: Joi.string().alphanum().min(6).max(24).required(),
+    password: Joi.string().alphanum().required().min(6).max(24),
   });
 
   router.post("/login", async (req, res) => {

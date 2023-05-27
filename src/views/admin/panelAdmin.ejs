@@ -33,7 +33,7 @@
       <div class="tab-content">
         <!-- First Section -->
         <div id="course" class="tab-pane fade show active">
-            <div class="form-group">
+            <div class="form-group">     
               <label for="courseName">Name:</label>
               <input
                 type="text"
@@ -64,7 +64,14 @@
             </div>
             <div class="form-group">
               <label for="coursePhoto">Photo:</label>
-              <input type="file" class="form-control-file" id="coursePhoto" />
+              <div class="row align-items-center">
+                <div class="col">
+                  <input type="file" class="form-control-file" id="coursePhoto" />
+                </div>
+                <div class="col-auto rounded-frame">
+                  <img id="pictureCourse" src="/user.png">
+                </div>         
+              </div>
             </div>
             <button type="button" id="coursesAdd" class="btn btn-success">Add</button>
             <button type="button" id="coursesUpdate" class="btn btn-primary">Update</button>

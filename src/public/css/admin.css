@@ -8,3 +8,21 @@
   .nav-link {
     color: #f8f8f8;
   }
+  .rounded-frame {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    position: relative; 
+  }
+  
+  /* Дополнительные стили для изображения внутри рамки */
+  .rounded-frame img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    background-size: cover;
+    background-position: center;
+    margin-right: 10px;
+    transition: transform 0.3s; 
+  }

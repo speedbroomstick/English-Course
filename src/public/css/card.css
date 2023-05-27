@@ -259,9 +259,6 @@
         min-width: 600px;
       }
     
-      .option {
-        flex-basis: calc(33.33% - 10px);
-      }
     }
 
     .question_course {

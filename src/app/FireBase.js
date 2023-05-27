@@ -1,5 +1,5 @@
 const { initializeApp } = require("firebase/app");
-const { getStorage, ref, getDownloadURL } = require("firebase/storage");
+const { getStorage, ref,uploadBytes, getDownloadURL } = require("firebase/storage");
 class FireBase {
   constructor() {
      this.firebaseConfig = {
@@ -16,23 +16,13 @@ class FireBase {
   }
 
   async uploadPicture(file) {
-    const filePath = `${Date.now()}-${file.originalname}`;
-    const uploadTask = ref(this.storage, filePath).put(file.buffer);
-
-    return new Promise((resolve, reject) => {
-      uploadTask.on(
-        "state_changed",
-        null,
-        (err) => {
-          console.error(err);
-          reject("Failed to upload file.");
-        },
-        async () => {
-          const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
-          resolve(downloadUrl);
-        }
-      );
-    });
+    const storageRef = ref(this.storage, 'photo/'+ file.originalname);
+    /** @type {any} */
+    const metadata = {
+      contentType: 'image/png',
+    };
+    const uploadTask = uploadBytes(storageRef, file.buffer, metadata).then((snapshot) => {});
+    return  'photo/'+ file.originalname +'.png';
   }
 
   async getPictureUrl(fileUrl) {

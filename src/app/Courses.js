@@ -36,20 +36,36 @@ class Courses {
       let result = await this.mySql.query("UPDATE CompletedCourses SET procent = "+ procent +" WHERE idCourse = "+ idCourse +" AND idUser = "+ idUser +";");
       return result;
      }
-
-     async addCourse(name,description,level){      
+     async addCourseWithoutFoto(name,description,level){  
       let result = await this.mySql.query("INSERT INTO `courses` (name,description,level) VALUES ('"+ name +"','"+ description +"',"+ level +");");
       let query = "INSERT INTO `CompletedCourses` (idUser,idCourse,procent) VALUES";
       let users = await this.mySql.query("SELECT * FROM `users` ");
       users.forEach(element => {
         query += "("+ element.idUser +","+ result.insertId +",0),";
-      });
+        });
       query = query.substring(0, query.length - 1) + ";";
       await this.mySql.query(query);
       return result;
+      }
+     async addCourse(name,description,level,file){  
+     let result = await this.mySql.query("INSERT INTO `courses` (name,description,level,photo) VALUES ('"+ name +"','"+ description +"',"+ level +",'"+ await this.fireBase.uploadPicture(file) +"');");
+     let query = "INSERT INTO `CompletedCourses` (idUser,idCourse,procent) VALUES";
+     let users = await this.mySql.query("SELECT * FROM `users` ");
+     users.forEach(element => {
+       query += "("+ element.idUser +","+ result.insertId +",0),";
+       });
+     query = query.substring(0, query.length - 1) + ";";
+     await this.mySql.query(query);
+     return result;
      }
-     async updateCourse(name,description,level,id_course){      
+     async updateCourseWithoutFoto(name,description,level,id_course){      
       let result = await this.mySql.query("UPDATE `courses` SET name = '"+ name +"' ,description = '"+ description +"' , level = "+ level +" WHERE id_course = "+ id_course +";");
+      return result;
+     }
+     async updateCourse(name,description,level,id_course,file){      
+      let url = await this.fireBase.uploadPicture(file);
+      console.log(url);
+      let result = await this.mySql.query("UPDATE `courses` SET name = '"+ name +"' ,description = '"+ description +"' , level = "+ level +", photo = '"+ url +"' WHERE id_course = "+ id_course +";");
       return result;
      }
      async deleteCourse(id_course){      

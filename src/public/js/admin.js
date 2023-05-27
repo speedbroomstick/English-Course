@@ -14,6 +14,21 @@ let questionsData;
 let courseID;
 let testId;
 let questionId;
+
+$("#coursePhoto").change(function(event) {
+  const file = event.target.files[0]; // Получить выбранный файл
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+    const imgData = event.target.result; // Получить данные изображения
+
+    // Найти элемент с идентификатором "pictureCourse" и установить данные изображения в качестве значения атрибута src
+    $("#pictureCourse").attr("src", imgData);
+  };
+
+  reader.readAsDataURL(file); // Прочитать содержимое файла в формате Data URL
+});
+
 document.getElementById('question').addEventListener('input', function(event) {
   event.preventDefault();
     if(questionsSearch.includes(event.target.value)){
@@ -45,6 +60,7 @@ document.getElementById('courseName').addEventListener('input', function(event) 
     if(courses.includes(event.target.value)){
       allDataCourses.forEach(element =>{
         if(element.name == event.target.value){
+          $("#pictureCourse").attr('src', element.photo);
           $("#courseDesc").val(element.description);
           $("#courseLevel").val(element.level);
           courseID = element.id_course;
@@ -128,16 +144,31 @@ socket.on("administrator",(dataCourses,dataDictionaryGroup,words,user,test,quest
       });
     });
       // курсы
+      // {
+      //   method: "POST",
+      //   body: JSON.stringify(data),
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   }}
     $("#coursesAdd").click(function () {
+      const fileInput = $('#coursePhoto')[0];
       const data = {
         courseName: $("#courseName").val(),
         courseDesc: $("#courseDesc").val(),
         courseLevel: $("#courseLevel").val(),
         type: "add"
       };
-      clickButonChange("coursesChange",data);
+      const formData = new FormData();
+      formData.append('photo', fileInput.files[0]);
+      formData.append('data', JSON.stringify(data));
+      const options = {
+        method: "POST",
+        body: formData
+      };
+      clickButonChange("coursesChange",options);
     });
     $("#coursesUpdate").click(function () {
+      const fileInput = $('#coursePhoto')[0];
       const data = {
         courseName: $("#courseName").val(),
         courseDesc: $("#courseDesc").val(),
@@ -145,14 +176,27 @@ socket.on("administrator",(dataCourses,dataDictionaryGroup,words,user,test,quest
         courseID:courseID,
         type: "update"
       };
-      clickButonChange("coursesChange",data);   
+      const formData = new FormData();
+      formData.append('photo', fileInput.files[0]);
+      formData.append('data', JSON.stringify(data));
+      const options = {
+        method: "POST",
+        body: formData
+      };
+      clickButonChange("coursesChange",options);   
    });
     $("#coursesDelete").click(function () {
       const data = {
         courseID:courseID,
         type: "delete"
       };
-      clickButonChange("coursesChange",data);   
+      const formData = new FormData();
+      formData.append('data', JSON.stringify(data));
+      const options = {
+        method: "POST",
+        body: formData
+      };
+      clickButonChange("coursesChange",options);   
     });
     //тесты
     $("#testAdd").click(function () {
@@ -212,15 +256,8 @@ socket.on("administrator",(dataCourses,dataDictionaryGroup,words,user,test,quest
       };
       clickButonChange("questionChange",data);   
     });
-function clickButonChange(url,data){
-  console.log("Click!!");
-  fetch("http://localhost:3000/"+url, {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+function clickButonChange(url,options){
+  fetch("http://localhost:3000/"+url,options)
     .then((response) => {
       if (response.ok) {
         window.location.href = "/show_panel_admin";

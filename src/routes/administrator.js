@@ -1,5 +1,7 @@
 module.exports = (io) => {
     const express = require("express");
+    const multer = require('multer');
+    const upload = multer();
     const router = express.Router();
     const FireBase = require("../app/FireBase");
     const MySql = require("../app/MySql");
@@ -37,20 +39,36 @@ module.exports = (io) => {
       await io.emit("administrator",dataCourses,dataDictionaryGroup,words,users,tests,questions);
       res.send("Ok");
     });
-    router.post("/coursesChange", async(req, res)=>{
-      let name = req.body.courseName;
-      let description = req.body.courseDesc;
-      let level = req.body.courseLevel;
-      let courseID = req.body.courseID;
-      if( req.body.type == "add"){
-        await courses.addCourse(name,description,level);
-      }else if( req.body.type == "update"){
-        await courses.updateCourse(name,description,level,courseID);
+
+    router.post('/coursesChange', upload.single('photo'), async (req, res) => {
+      const data = JSON.parse(req.body.data);
+      console.log(data);
+      let name = data.courseName;
+      let description = data.courseDesc;
+      let level = data.courseLevel;
+      let courseID = data.courseID;
+      if( data.type == "add"){
+        if(req.file === undefined){
+          await courses.addCourseWithoutFoto(name,description,level);
+        }else{
+        await courses.addCourse(name,description,level,req.file);
+        }
+      }else if(data.type == "update"){
+        console.log(courseID);
+        if(req.file === undefined){
+          await courses.updateCourseWithoutFoto(name,description,level,courseID);
+        }
+        else{
+          console.log(courseID);
+          await courses.updateCourse(name,description,level,courseID,req.file);
+        }
       }else{
         await courses.deleteCourse(courseID);
       }
-      res.render("admin/mainPanel",{dataCourses:dataCourses,dataDictionaryGroup:dataDictionaryGroup,words:words,users:users,tests:tests,questions:questions});
+      res.sendStatus(200);
     });
+
+
     router.post("/testChange", async(req, res)=>{
       let name = req.body.testName;
       let description = req.body.testDesc;

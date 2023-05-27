@@ -2,7 +2,7 @@ import { socket } from "/js/authorization.js";
 import { testModule } from "/js/app/testModule.js";
 
 let test = new testModule();
-
+let curentInput;
 $(".answer-input").first().focus();
 $("#finishInput").on("input", (event) => {
   event.preventDefault();
@@ -14,9 +14,27 @@ $("#finishInput").on("input", (event) => {
   answer += $("#finishInput").val();
   test.sendAnswerToServer(answer,"http://localhost:3000/chek_answer_level2");
 });
+$(document).on("keydown", ".answer-input", function (e) {
+  if (e.which === 8 && $(this).val().length === 0) {
+    let prevInput = $(this).prev(".answer-input");
+    if (prevInput.length) {
+      prevInput.focus().val("");
+    } else {
+      let lastInput = $(".answer-input").last();
+      lastInput.focus().val("");
+    }
+  }
+});
+$(document).on("keydown", "#finishInput", function (e) {
+  console.log("dddd");
+  if (e.which === 8 && $(this).val().length === 0) {
+      curentInput.focus().val("");
+  } 
+});
 $(document).on("input", ".answer-input", function () {
   if ($(this).val().length === 1) {
     let nextInput = $(this).next(".answer-input");
+    curentInput = $(this);
     if (nextInput.length) {
       nextInput.focus();
     } else {

@@ -93,6 +93,12 @@ socket.on(
   );
   
   $(function() {
+    let notification =
+    '<div id="notification">' +
+    '<span id="text">Для ввода нажмите на микрофон, скажите свой ответ, а затем нажмите ещё раз после окончания.' +
+    "</span>" +
+    "</div>";
+  $(notification).prependTo("body").fadeIn(500).fadeOut(5000);
     fetch("http://localhost:3000/getAllInformationCourse", {
       method: "GET",
     })
