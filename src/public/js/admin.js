@@ -17,6 +17,7 @@ let courseID;
 let testId;
 let questionId;
 let videoId;
+$('.wrapper_video').hide();
 $('#courseVideo').prop('disabled', true);
 $("#courseVideo").change(function (event) {
   const file = event.target.files[0]; // Получить выбранный файл

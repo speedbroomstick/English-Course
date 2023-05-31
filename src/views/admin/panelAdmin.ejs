@@ -202,16 +202,21 @@
                 <% });%>
               </select>
             </div>
-            <div class="col">
-              <input type="file" class="form-control-file" id="courseVideo" />
+            <div class="form-group">
+              <label for="coursePhoto">Video:</label>
+              <div class="row align-items-center">
+                <div class="col">
+                  <input type="file" class="form-control-file" id="courseVideo" />
+                </div>
+                <div class="col-4 rounded-frame">
+                  <%- include("../courses/level_test_course/output/video.ejs",{flag:false}); -%>
+                </div>         
+              </div>
             </div>
             <button type="submit" class="btn btn-success">Add</button>
             <button type="submit" class="btn btn-primary">Update</button>
             <button type="submit" class="btn btn-danger">Delete</button>
           </form>
-          <div class="col-6 mx-auto">
-            <%- include("../courses/level_test_course/output/video.ejs",{flag:false}); -%>
-          </div>
         </div>
         
 
