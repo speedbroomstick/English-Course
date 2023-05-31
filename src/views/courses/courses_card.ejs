@@ -44,14 +44,26 @@
       <% } %>
     </div>
     <div class="button">
-      <form action="<%= url %>" method="get">
-        <% if(progres){ %>
-        <input type="hidden" name="progres" value="<%= progresCourses[i].procent %>">
-        <% } %>
-
-        <input type="hidden" name="Id" value="<%= datas[i][key] %>">
-        <button type="submit" class="aboutMe">Select</button>
-      </form>
+        <%  if(dictionary_type){ %>
+          <form action="<%= url %>" method="get">
+            <input type="hidden" name="Id" value="<%= datas[i][key] %>">
+            <button type="submit" class="btn btn-primary mb-3">Show words</button>
+          </form>
+        <form action="word_training_level1" method="get">
+          <input type="hidden" name="Id" value="<%= datas[i][key] %>">
+          <button type="submit" class="btn btn-primary">Easy training</button>
+        </form>
+        <form action="word_training_level2" method="get">
+          <input type="hidden" name="Id" value="<%= datas[i][key] %>">
+          <button type="submit" class="btn btn-primary">Hard training</button>
+        </form>
+         <% }else{ %>
+          <form action="<%= url %>" method="get">
+          <input type="hidden" name="progres" value="<%= progresCourses[i].procent %>">
+          <input type="hidden" name="Id" value="<%= datas[i][key] %>">
+          <button type="submit" class="aboutMe">Begin</button>
+        </form>
+          <% } %>
     </div>
   </div>   
 </div>

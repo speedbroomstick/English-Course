@@ -18,7 +18,9 @@
             </li>
             <li class="options right">
               <span id="prompt_video" class="fa-sharp fa-light fa-question fa-fade fa-xl" style="color: #ffffff; cursor: pointer;">
+                <% if(flag){ %>
                 <span class="tooltip-text"><%= questions[order[chetQuestions]].answer%></span>
+                <% } %>
             </span>
                 <div class="playback-content">
                     <button class="playback-speed"><span class="material-symbols-rounded">slow_motion_video</span></button>

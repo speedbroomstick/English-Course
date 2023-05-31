@@ -21,6 +21,7 @@ module.exports = (io) => {
     let users;
     let tests;
     let questions;
+    let video;
     router.get("/show_panel_admin", async (req, res) => {
         courses = new Courses(new MySql(), new FireBase());
         dataCourses = await courses.getCourses();
@@ -32,17 +33,17 @@ module.exports = (io) => {
         dataDictionaryGroup = await groups.getGroup();
         user = new Users(new MySql());
         users = await user.getAllUser();
-        res.render("admin/mainPanel",{dataCourses:dataCourses,dataDictionaryGroup:dataDictionaryGroup,words:words,users:users,tests:tests,questions:questions});
+        video = await courses.getAllVideo();
+        res.render("admin/mainPanel",{dataCourses:dataCourses,dataDictionaryGroup:dataDictionaryGroup,words:words,users:users,tests:tests,questions:questions,video:video});
     });
   
     router.get("/getAllInformation", async (req, res) => {
-      await io.emit("administrator",dataCourses,dataDictionaryGroup,words,users,tests,questions);
+      await io.emit("administrator",dataCourses,dataDictionaryGroup,words,users,tests,questions,video);
       res.send("Ok");
     });
 
     router.post('/coursesChange', upload.single('photo'), async (req, res) => {
-      const data = JSON.parse(req.body.data);
-      console.log(data);
+      let data = JSON.parse(req.body.data);
       let name = data.courseName;
       let description = data.courseDesc;
       let level = data.courseLevel;
@@ -54,12 +55,10 @@ module.exports = (io) => {
         await courses.addCourse(name,description,level,req.file);
         }
       }else if(data.type == "update"){
-        console.log(courseID);
         if(req.file === undefined){
           await courses.updateCourseWithoutFoto(name,description,level,courseID);
         }
         else{
-          console.log(courseID);
           await courses.updateCourse(name,description,level,courseID,req.file);
         }
       }else{
@@ -69,30 +68,32 @@ module.exports = (io) => {
     });
 
 
-    router.post("/testChange", async(req, res)=>{
-      let name = req.body.testName;
-      let description = req.body.testDesc;
-      let course = req.body.testCourse;
-      let testId = req.body.testId;
-      if( req.body.type == "add"){
+    router.post("/testChange", upload.none() ,async(req, res)=>{
+      let data = JSON.parse(req.body.data);
+      let name = data.testName;
+      let description = data.testDesc;
+      let course = data.testCourse;
+      let testId = data.testId;
+      if( data.type == "add"){
         await courses.addTest(name,description,course);
-      }else if( req.body.type == "update"){
+      }else if( data.type == "update"){
         await courses.updateTest(name,description,course,testId);
       }else{
         await courses.deleteTest(testId);
       }
-      res.render("admin/mainPanel",{dataCourses:dataCourses,dataDictionaryGroup:dataDictionaryGroup,words:words,users:users,tests:tests,questions:questions});
+      res.sendStatus(200);
     });
-    router.post("/questionChange", async(req, res)=>{
-      let question = req.body.question;
-      let answer = req.body.answer;
-      let inputType = req.body.inputType;
-      let outputType = req.body.outputType;
-      let testID = req.body.testID;
-      let questionId = req.body.questionId;
-      if( req.body.type == "add"){
+    router.post("/questionChange",upload.none() , async(req, res)=>{
+      let data = JSON.parse(req.body.data);
+      let question = data.question;
+      let answer = data.answer;
+      let inputType = data.inputType;
+      let outputType = data.outputType;
+      let testID = data.testID;
+      let questionId = data.questionId;
+      if( data.type == "add"){
         await courses.addQuestion(question,answer,inputType,outputType,testID);
-      }else if( req.body.type == "update"){
+      }else if( data.type == "update"){
         await courses.updateQuestion(question,answer,inputType,outputType,testID,questionId);
       }else{
         await courses.deleteQuestion(questionId);

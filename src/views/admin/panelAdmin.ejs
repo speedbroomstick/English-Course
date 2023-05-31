@@ -165,9 +165,30 @@
         <!-- Fourth Section -->
         <div id="video" class="tab-pane fade">
           <form>
+            <fieldset disabled>
+              <div class="form-group">
+                <label for="readMode">Video ID:</label>
+                <input type="text" class="form-control form-disabled" id="readMode" />
+              </div>
+            </fieldset>
             <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="videoCheck">
+                <label class="form-check-label" for="videoCheck">Check to insert video</label>
+              </div>
               <label for="videoLink">Link:</label>
-              <input type="text" class="form-control" id="videoLink" />
+              <input
+                type="text"
+                class="form-control"
+                list="videolistOptions"
+                id="videoLink"
+                placeholder="Type to search..."
+              />
+              <datalist id="videolistOptions">
+                <% video.forEach((vid)=> { %>
+                <option value="<%= vid.link %>"></option>
+                <% });%>
+              </datalist>
             </div>
             <div class="form-group">
               <label for="videoDesc">Description:</label>
@@ -176,16 +197,23 @@
             <div class="form-group">
               <label for="videoTest">Test:</label>
               <select class="form-control" id="videoTest">
-                <option value="test1">Test 1</option>
-                <option value="test2">Test 2</option>
-                <!-- Add more options for tests -->
+                <% tests.forEach((test)=> { %>
+                <option value="<%= test.name %>"><%= test.name %></option>
+                <% });%>
               </select>
+            </div>
+            <div class="col">
+              <input type="file" class="form-control-file" id="courseVideo" />
             </div>
             <button type="submit" class="btn btn-success">Add</button>
             <button type="submit" class="btn btn-primary">Update</button>
             <button type="submit" class="btn btn-danger">Delete</button>
           </form>
+          <div class="col-6 mx-auto">
+            <%- include("../courses/level_test_course/output/video.ejs",{flag:false}); -%>
+          </div>
         </div>
+        
 
         <!-- Fifth Section -->
         <div id="rule" class="tab-pane fade">

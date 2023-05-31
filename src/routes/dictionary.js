@@ -51,7 +51,7 @@ module.exports = (io) => {
   });
   router.get("/word_training_level1", async (req, res) => {
     let words = new Words(new MySql());
-    test = new Test(await words.getAllWords(), "translation");
+    test = new Test(await words.getAllWordsGroup(req.query.Id), "translation", await words.getAllWords());
     res.render("dictionary/word_training/word_training", {
       allWords: test.data,
       order: test.order,
@@ -62,7 +62,7 @@ module.exports = (io) => {
   });
   router.get("/word_training_level2", async (req, res) => {
     let words = new Words(new MySql());
-    test = new Test(await words.getAllWords(), false);
+    test = new Test(await words.getAllWordsGroup(req.query.Id), false);
     res.render("dictionary/word_training/word_training", {
       allWords: test.data,
       order: test.order,

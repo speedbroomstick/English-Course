@@ -1,7 +1,7 @@
 class Test {
-  constructor(data, key) {
+  constructor(data, key, optionsInformation = []) {
     this.data = data;
-    this.copyForOptios = [...this.data];
+    this.copyForOptios = [...optionsInformation];
     this.order = this.randomArray(data.length);
     this.key = key;
     this.progress = new Array(data.length).fill(null);
@@ -10,7 +10,7 @@ class Test {
     this.countToAdd = 100 / data.length;
     this.correctAnswer;
     if (key != false) {
-      this.orderOptions = this.randomAnswersOptions(this.copyForOptios, key);
+      this.orderOptions = this.randomAnswersOptions(key);
     }
   }
 
@@ -69,7 +69,7 @@ class Test {
       this.copyData = [];
       this.progress = new Array(this.data.length).fill(null);
       if (this.key != false) {
-        this.orderOptions = this.randomAnswersOptions(this.data, this.key);
+        this.orderOptions = this.randomAnswersOptions(this.key);
       }
     }
   }
@@ -95,12 +95,12 @@ class Test {
     return array;
   }
 
-  randomAnswersOptions(data, key) {
+  randomAnswersOptions(key) {
     let orderOptions = [];
     let max = this.copyForOptios.length;
     for (let i = 0; i < this.data.length; i++) {
       let number = new Set();
-      number.add(data[this.order[i]][key]);
+      number.add(this.data[this.order[i]][key]);
       while (number.size < 4) {
         let randomNumber = Math.floor(Math.random() * (max - 1 - 0 + 1)) + 0;
         number.add(this.copyForOptios[randomNumber][key]);

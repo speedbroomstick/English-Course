@@ -38,7 +38,7 @@
             </div>
           </div>
           <div id="question_container">
-            <%- include('level_test_course/output/video.ejs',{video:video,questions:questions,order:order,chetQuestions:chetQuestions}); -%>
+            <%- include('level_test_course/output/video.ejs',{video:video,questions:questions,order:order,chetQuestions:chetQuestions,flag:true}); -%>
              <h2 id="questionH2" class="question_course"><%= questions[order[chetQuestions]].question %></h2>
         </div>
           <div class="quiz-question">

@@ -32,10 +32,15 @@ class Courses {
       let result = await this.mySql.query("SELECT * FROM `video` WHERE test_id = "+ idTest);
       return  this.decodeUrl(result,'link');;
      }
+     async getAllVideo(){
+      let result = await this.mySql.query("SELECT * FROM `video`");
+      return  this.decodeUrl(result,'link');;
+     }
      async changeProcent(procent, idUser, idCourse){      
       let result = await this.mySql.query("UPDATE CompletedCourses SET procent = "+ procent +" WHERE idCourse = "+ idCourse +" AND idUser = "+ idUser +";");
       return result;
      }
+
      async addCourseWithoutFoto(name,description,level){  
       let result = await this.mySql.query("INSERT INTO `courses` (name,description,level) VALUES ('"+ name +"','"+ description +"',"+ level +");");
       let query = "INSERT INTO `CompletedCourses` (idUser,idCourse,procent) VALUES";
@@ -102,6 +107,7 @@ class Courses {
       let result = await this.mySql.query("DELETE FROM `questionForTest` WHERE idquestion = "+ questionId +";");
       return result;
      }
+
     async decodeUrl(data,key){
         for(let i=0; i<data.length;i++){
             data[i][key] = await this.fireBase.getPictureUrl(data[i][key]);
