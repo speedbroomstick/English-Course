@@ -69,7 +69,6 @@ class Courses {
      }
      async updateCourse(name,description,level,id_course,file){      
       let url = await this.fireBase.uploadPicture(file);
-      console.log(url);
       let result = await this.mySql.query("UPDATE `courses` SET name = '"+ name +"' ,description = '"+ description +"' , level = "+ level +", photo = '"+ url +"' WHERE id_course = "+ id_course +";");
       return result;
      }
@@ -107,6 +106,24 @@ class Courses {
       let result = await this.mySql.query("DELETE FROM `questionForTest` WHERE idquestion = "+ questionId +";");
       return result;
      }
+
+
+     async addVideo(description,testId,file){  
+      console.log(file);
+      let result = await this.mySql.query("INSERT INTO `video` (link,description,test_id) VALUES ('"+ await this.fireBase.uploadPicture(file) +"','"+ description +"',"+ parseInt(testId) +");");
+      return result;
+      }
+      async updateVideo(name,description,level,id_course,file){      
+       let url = await this.fireBase.uploadPicture(file);
+       console.log(url);
+       let result = await this.mySql.query("UPDATE `courses` SET name = '"+ name +"' ,description = '"+ description +"' , level = "+ level +", photo = '"+ url +"' WHERE id_course = "+ id_course +";");
+       return result;
+      }
+      async deleteVideo(id_course){      
+       let result = await this.mySql.query("DELETE FROM `courses` WHERE id_course = "+ id_course +";");
+       return result;
+      }
+
 
     async decodeUrl(data,key){
         for(let i=0; i<data.length;i++){

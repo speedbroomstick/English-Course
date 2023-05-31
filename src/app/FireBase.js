@@ -16,13 +16,11 @@ class FireBase {
   }
 
   async uploadPicture(file) {
+    console.log(file);
     const storageRef = ref(this.storage, 'photo/'+ file.originalname);
-    /** @type {any} */
-    const metadata = {
-      contentType: 'image/png',
-    };
-    const uploadTask = uploadBytes(storageRef, file.buffer, metadata).then((snapshot) => {});
-    return  'photo/'+ file.originalname +'.png';
+    const uploadTask = uploadBytes(storageRef, file.buffer).then((snapshot) => {});
+    console.log('photo/'+ file.originalname);
+    return  'photo/'+ file.originalname;
   }
 
   async getPictureUrl(fileUrl) {

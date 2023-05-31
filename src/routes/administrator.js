@@ -98,7 +98,27 @@ module.exports = (io) => {
       }else{
         await courses.deleteQuestion(questionId);
       }
-      res.render("admin/mainPanel",{dataCourses:dataCourses,dataDictionaryGroup:dataDictionaryGroup,words:words,users:users,tests:tests,questions:questions});
+      res.sendStatus(200);
+    });
+    router.post("/videoChange", upload.single('video') , async(req, res)=>{
+      let data = JSON.parse(req.body.data);
+      let description = data.description;
+      let testId = data.testId;
+      tests.forEach(element => {
+        if(element.name == testId){
+          testId = element.idtest;
+        }
+      });
+      console.log(data);
+      if( data.type == "add"){
+        await courses.addVideo(description,testId,req.file);
+      }else if( data.type == "update"){
+        await courses.updateVideo(question,answer,inputType,outputType,testID,questionId);
+      }else{
+        await courses.deleteVideo(questionId);
+      }
+      res.sendStatus(200);
+
     });
     return router;
   };

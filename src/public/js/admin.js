@@ -16,7 +16,7 @@ let videoData;
 let courseID;
 let testId;
 let questionId;
-let videoId;
+let videoIdTest;
 $('.wrapper_video').hide();
 $('#courseVideo').prop('disabled', true);
 $("#courseVideo").change(function (event) {
@@ -67,7 +67,7 @@ document.getElementById("videoLink").addEventListener("input", function (event) 
         $('source').attr('src', element.link);
         var videoElement = $('#my-video')[0];
         videoElement.load();
-        videoId = element.idquestion;
+        videoIdTest = element.test_id;
       }
     });
   }
@@ -346,31 +346,27 @@ $("#questionDelete").click(function () {
   clickButonChange("questionChange", options);
 });
 //video
-$("#questionAdd").click(function () {
+$("#videoAdd").click(function () {
+  const fileInput = $("#courseVideo")[0];
   const data = {
-    question: $("#question").val(),
-    answer: $("#answer").val(),
-    inputType: $("#inputType").val(),
-    outputType: $("#outputType").val(),
-    testID: $("#testID").val(),
+    videoId: $("#readMode").val(),
+    description: $("#videoDesc").val(),
+    testId: $("#videoTest").val(),
     type: "add",
   };
+  console.log(data);
   const formData = new FormData();
+  formData.append("video", fileInput.files[0]);
   formData.append("data", JSON.stringify(data));
   const options = {
     method: "POST",
     body: formData,
   };
-  clickButonChange("questionChange", options);
+  clickButonChange("videoChange", options);
 });
-$("#questionUpdate").click(function () {
+$("#videoUpdate").click(function () {
   const data = {
-    question: $("#question").val(),
-    answer: $("#answer").val(),
-    inputType: $("#inputType").val(),
-    outputType: $("#outputType").val(),
-    testID: $("#testID").val(),
-    questionId: questionId,
+
     type: "update",
   };
   const formData = new FormData();
@@ -379,11 +375,10 @@ $("#questionUpdate").click(function () {
     method: "POST",
     body: formData,
   };
-  clickButonChange("questionChange", options);
+  clickButonChange("videoChange", options);
 });
-$("#questionDelete").click(function () {
+$("#videoDelete").click(function () {
   const data = {
-    questionId: questionId,
     type: "delete",
   };
   const formData = new FormData();
@@ -392,7 +387,7 @@ $("#questionDelete").click(function () {
     method: "POST",
     body: formData,
   };
-  clickButonChange("questionChange", options);
+  clickButonChange("videoChange", options);
 });
 function clickButonChange(url, options) {
   fetch("http://localhost:3000/" + url, options)
