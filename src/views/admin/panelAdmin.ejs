@@ -29,6 +29,11 @@
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" href="#rule">Rule</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tooltip" data-placement="top" title="Help HelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelpHelp">
+            <i class="fas fa-question-circle"></i>
+          </a>
+        </li>
       </ul>
       <div class="tab-content">
         <!-- First Section -->
@@ -177,18 +182,11 @@
                 <label class="form-check-label" for="videoCheck">Check to insert video</label>
               </div>
               <label for="videoLink">Link:</label>
-              <input
-                type="text"
-                class="form-control"
-                list="videolistOptions"
-                id="videoLink"
-                placeholder="Type to search..."
-              />
-              <datalist id="videolistOptions">
+              <select class="form-control" id="videoLink">
                 <% video.forEach((vid)=> { %>
-                <option value="<%= vid.link %>"></option>
+                <option value="<%= vid.link %>"><%= vid.link %></option>
                 <% });%>
-              </datalist>
+              </select>
             </div>
             <div class="form-group">
               <label for="videoDesc">Description:</label>
