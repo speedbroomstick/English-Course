@@ -402,3 +402,8 @@ function clickButonChange(url, options) {
       console.error("Произошла ошибка при выполнении запроса:", error);
     });
 }
+
+
+$("#linkVideo").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить видео заполните обязательные поля Test и добавте через файл видео ряд. Необязательные поля: description. Поле Link для обновление и удаление.");
+});
