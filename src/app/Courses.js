@@ -30,11 +30,15 @@ class Courses {
      }
      async getVideo(idTest){
       let result = await this.mySql.query("SELECT * FROM `video` WHERE test_id = "+ idTest);
-      return  this.decodeUrl(result,'link');;
+      return  this.decodeUrl(result,'link');
+     }
+     async getRule(idTest){
+      let result = await this.mySql.query("SELECT * FROM `rule` WHERE test_id = "+ idTest);
+      return result;
      }
      async getAllVideo(){
       let result = await this.mySql.query("SELECT * FROM `video`");
-      return  this.decodeUrl(result,'link');;
+      return  this.decodeUrl(result,'link');
      }
      async changeProcent(procent, idUser, idCourse){      
       let result = await this.mySql.query("UPDATE CompletedCourses SET procent = "+ procent +" WHERE idCourse = "+ idCourse +" AND idUser = "+ idUser +";");
@@ -109,18 +113,20 @@ class Courses {
 
 
      async addVideo(description,testId,file){  
-      console.log(file);
       let result = await this.mySql.query("INSERT INTO `video` (link,description,test_id) VALUES ('"+ await this.fireBase.uploadPicture(file) +"','"+ description +"',"+ parseInt(testId) +");");
       return result;
       }
-      async updateVideo(name,description,level,id_course,file){      
-       let url = await this.fireBase.uploadPicture(file);
-       console.log(url);
-       let result = await this.mySql.query("UPDATE `courses` SET name = '"+ name +"' ,description = '"+ description +"' , level = "+ level +", photo = '"+ url +"' WHERE id_course = "+ id_course +";");
+      async updateVideo(description,testId,videoID,file){    
+
+       if (typeof file === 'undefined') {
+        let result = await this.mySql.query("UPDATE `video` SET description = '"+ description +"' ,test_id = "+ testId +" WHERE idvideo = "+ videoID +";");
+      } else {
+        let result = await this.mySql.query("UPDATE `video` SET link = '"+ await this.fireBase.uploadPicture(file) +"',description = '"+ description +"' ,test_id = "+ testId +" WHERE idvideo = "+ videoID +";");
+      }
        return result;
       }
-      async deleteVideo(id_course){      
-       let result = await this.mySql.query("DELETE FROM `courses` WHERE id_course = "+ id_course +";");
+      async deleteVideo(videoID){      
+       let result = await this.mySql.query("DELETE FROM `video` WHERE idvideo = "+ videoID +";");
        return result;
       }
 

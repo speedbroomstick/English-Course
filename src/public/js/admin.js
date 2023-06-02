@@ -354,7 +354,6 @@ $("#videoAdd").click(function () {
     testId: $("#videoTest").val(),
     type: "add",
   };
-  console.log(data);
   const formData = new FormData();
   formData.append("video", fileInput.files[0]);
   formData.append("data", JSON.stringify(data));
@@ -365,11 +364,15 @@ $("#videoAdd").click(function () {
   clickButonChange("videoChange", options);
 });
 $("#videoUpdate").click(function () {
+  const fileInput = $("#courseVideo")[0];
   const data = {
-
+    videoId: $("#readMode").val(),
+    description: $("#videoDesc").val(),
+    testId: $("#videoTest").val(),
     type: "update",
   };
   const formData = new FormData();
+  formData.append("video", fileInput.files[0]);
   formData.append("data", JSON.stringify(data));
   const options = {
     method: "POST",
@@ -379,6 +382,7 @@ $("#videoUpdate").click(function () {
 });
 $("#videoDelete").click(function () {
   const data = {
+    videoId: $("#readMode").val(),
     type: "delete",
   };
   const formData = new FormData();
@@ -406,4 +410,16 @@ function clickButonChange(url, options) {
 
 $("#linkVideo").click(function() {
   $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить видео заполните обязательные поля Test и добавте через файл видео ряд. Необязательные поля: description. Поле Link для обновление и удаление.");
+});
+$("#linkCourse").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить новый курс обязательно заполните поля:Name. Остальные являются необязательными. Для обновления фото курса выберите из поля Name курс и выберить через file новое фото.");
+});
+$("#linkTest").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить тест заполните обязательные поля course и Name. Необязательные поля: description.");
+});
+$("#linkQuestion").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить новый вопрос нужно: в поле Question записать либо id видео для воспроизведения, либо слово или предложение. Если это видео в поле Output выберите обязательно 'video'! Обязательно выберите test к которому будет относится вопрос!! И Запишите ответ! Для удаления достаточно выбор в поле Question нужный вопрос и нажать Delete.");
+});
+$("#linkRule").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Обязательные поля: Name, text, test!");
 });

@@ -3,12 +3,15 @@ INSERT INTO users (login,password) VALUES ('LeonidGovorec','LeonidGovorec'),('Ad
 INSERT INTO `group` (name,photo,description) VALUES ('Oxford3000-A1','gs://english-course-18e54.appspot.com/A1.png','Слова уровня А1'),
                                                     ('Wednesday','photo/wednesday.jpg','Слова из сериала «Wednesday»'),
                                                     ('MyPersonalWords','gs://english-course-18e54.appspot.com/myPersonal.jpg','Моя персональная подборка');
-INSERT INTO `courses` (name,description,level,photo) VALUES ('English Conversation Course','Прокачает ваш разговорный',2,'photo/big-ben.jpg');
-                                                            -- ('Grammar Basics','Времена, предлоги, неправильные глаголы',3,'photo/gramar.jpg'),
+INSERT INTO `courses` (name,description,level,photo) VALUES ('English Conversation Course','Прокачает ваш разговорный',2,'photo/big-ben.jpg'),
+                                                            ('Grammar Basics','Времена, предлоги, неправильные глаголы',3,'photo/gramar.jpg');
                                                             -- ('Learn to write','Пишите и тренеруйте навыки написания',2,'photo/english.jpg');
 INSERT INTO `tests` (name,id_course,description) VALUES ('Проверим твое произношение',1,'Просто произносите, что видете'),
-                                                        ('Посмотрим твое восприятие',1,'Произносите, что услышите на видео');
-INSERT INTO `CompletedCourses` (idUser,idCourse,procent) VALUES (1,1,0);
+                                                        ('Посмотрим твое восприятие',1,'Произносите, что услышите на видео'),
+                                                        ('Правило',2,'Прочитайте');
+                                                        
+INSERT INTO `rule` (name,ruleText,test_id) VALUES ('Неправильные глаголы','Проверим твое произношениеПроверим твое произношениеПроверим твое произношениеПроверим твое произношениеПроверим твое произношение',3);
+INSERT INTO `CompletedCourses` (idUser,idCourse,procent) VALUES (1,1,0), (1,2,0);
 
 INSERT INTO `video` (link,description,test_id) VALUES ('wednesday/Wednesday1.mp4','',1),
                                                       ('wednesday/Wednesday2.mp4','',2),
@@ -16,7 +19,8 @@ INSERT INTO `video` (link,description,test_id) VALUES ('wednesday/Wednesday1.mp4
                                                       ('wednesday/Wednesday7.mp4','',2),
                                                       ('wednesday/Wednesday8.mp4','',2);
 
-INSERT INTO `questionForTest` (question,answer,type_i,type_oi,test_id) VALUES ('window','window','audio','text',1),
+INSERT INTO `questionForTest` (question,answer,type_i,type_oi,test_id) VALUES ('Неправильные глаголы','','rule','rule',3),
+                                                                    ('window','window','audio','text',1),
                                                                       ('black','black','audio','text',1),
                                                                       ('1','Let him go. You want to end up in the stocks too?','audio','video',1),
                                                                       ('picture','picture','audio','text',1),

@@ -45,7 +45,8 @@ module.exports = (io) => {
       await courses.getQuestionForTests(tests[numberTest].idtest),
       false
     );
-    video = await courses.getVideo(numberTest+1);
+    video = await courses.getVideo(tests[numberTest].idtest);
+    console.log( await courses.getRule(tests[numberTest].idtest));
     res.render("courses/begin_course", {
       test: tests,
       questions: test.data,

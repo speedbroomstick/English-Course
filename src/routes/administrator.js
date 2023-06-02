@@ -102,6 +102,7 @@ module.exports = (io) => {
     });
     router.post("/videoChange", upload.single('video') , async(req, res)=>{
       let data = JSON.parse(req.body.data);
+      let videoID = data.videoId;
       let description = data.description;
       let testId = data.testId;
       tests.forEach(element => {
@@ -113,9 +114,9 @@ module.exports = (io) => {
       if( data.type == "add"){
         await courses.addVideo(description,testId,req.file);
       }else if( data.type == "update"){
-        await courses.updateVideo(question,answer,inputType,outputType,testID,questionId);
+        await courses.updateVideo(description,testId,videoID,req.file);
       }else{
-        await courses.deleteVideo(questionId);
+        await courses.deleteVideo(videoID);
       }
       res.sendStatus(200);
 
