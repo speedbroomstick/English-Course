@@ -13,6 +13,7 @@ module.exports = (io) => {
   let dataCourses;
   let selectCourse;
   let tests;
+  let rule;
   require("dotenv").config({ path: __dirname + "/../.env" });
   const multer = require("multer");
   const storage = multer.diskStorage({
@@ -46,16 +47,34 @@ module.exports = (io) => {
       false
     );
     video = await courses.getVideo(tests[numberTest].idtest);
-    console.log( await courses.getRule(tests[numberTest].idtest));
+    rule = await courses.getRule(tests[numberTest].idtest);
     res.render("courses/begin_course", {
       test: tests,
       questions: test.data,
       order: test.order,
       chetQuestions: test.chetQuestions,
-      video: video
+      video: video,
+      rule: rule,
     });
   });
-
+  router.post("/send_agree", async(req, res)=>{
+    await io.emit(
+      "answer_from_voice",
+      await test.checkAnswer(
+        "",
+        "answer",
+        "text"
+      ),
+      test.chetQuestions,
+      test.data,
+      test.order,
+      test.countToAdd,
+      "",
+      video,
+      rule,
+    );
+    res.send("Correct!");
+  });
   router.post(
     "/upload-audio",
     upload.single("audioStream"),
@@ -76,6 +95,7 @@ module.exports = (io) => {
         test.countToAdd,
         answerUser,
         video,
+        rule,
 
       );
       res.send("Correct!");
@@ -90,7 +110,7 @@ module.exports = (io) => {
 
   
   router.get("/getAllInformationCourse", async (req, res) => {
-    await io.emit("info_course",test.data[test.order[0]].type_oi, test.data, test.order, test.chetQuestions, video);
+    await io.emit("info_course",test.data[test.order[0]].type_oi, test.data, test.order, test.chetQuestions, video, rule);
     res.send("Ok");
   });
 

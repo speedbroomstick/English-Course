@@ -1,0 +1,49 @@
+  p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .rule-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FDFDFD;
+    margin-bottom: 15px;
+  }
+
+  .rule-description {
+    font-size: 16px;
+    color: #FDFDFD;
+  }
+  .button-agree{
+    background: transparent;
+    border: 2px solid rgb(102, 204, 255);
+    outline: none;
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 22px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .3s;
+  }
+  .button-agree:hover{
+    background: #fff;
+    color: rgb(102, 204, 255);
+  }
+  @media screen and (max-width: 480px) {
+    .rule-description {
+        width: 300px;
+  }
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .rule-description{
+        width: 500px;
+  }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .rule-description {
+        width: 800px;
+  }
+  }

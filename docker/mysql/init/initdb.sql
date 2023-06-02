@@ -107,6 +107,7 @@ create table `rule`
 (
     idrule     int auto_increment,
     name         VARCHAR(45)  not null,
+    title          VARCHAR(450)  not null,
     ruleText        LONGTEXT  not null,
     test_id      int not null,
     constraint rule_pk

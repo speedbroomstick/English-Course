@@ -66,13 +66,17 @@ startButton.addEventListener("click", function () {
 
 socket.on(
   "answer_from_voice",
-  (isAnswerCorrect,chetQuestions, questions, order,countToAdd,answerUser,video) => {
+  (isAnswerCorrect,chetQuestions, questions, order,countToAdd,answerUser,video,rule) => {
     test.checkAnswer(isAnswerCorrect,answerUser,countToAdd,"courses_end","courses","Ваш ввод был:");
     $("#number_question").val(order[chetQuestions]);
     $("#chet_questions").val(chetQuestions);
     if(questions[order[chetQuestions]].type_oi == "video"){
+      $(".rule-title").hide();
+      $(".rule-description").hide();
       $('.tooltip-text').text(questions[order[chetQuestions]].answer);
       $("#questionH2").hide();
+      $(".button-agree").hide();
+      $(".box").show(500);
       let link;
       video.forEach(element => {
         if(element.idvideo == questions[order[chetQuestions]].question){
@@ -84,14 +88,46 @@ socket.on(
       var videoElement = $('#my-video')[0];
       videoElement.load();
       $('.container_video').fadeIn(500);
-  }else{
+  }else if(questions[order[chetQuestions]].type_oi == "text"){
+    $(".rule-title").hide();
+    $(".rule-description").hide();
     $('.container_video').hide();
+    $(".button-agree").hide();
+    $(".box").show(500);
     $("#questionH2").text(questions[order[chetQuestions]].question);
       $("#questionH2").fadeIn(500);
     }
+    else{
+      $('.container_video').hide();
+      $(".box").hide();
+      $(".button-agree").show(500);
+      $("#questionH2").text(questions[order[chetQuestions]].question);
+      $("#questionH2").fadeIn(500);
+      rule.forEach(element =>{
+        if(element.title == questions[order[chetQuestions]].question){
+          $(".rule-title").show(500).text(element.title);
+          $(".rule-description").show(500).text(element.ruleText);
+        }
+      });
+    }
   }
   );
-  
+  $(".button-agree").click(function() {
+    const options = {
+      method: "POST",
+    };
+    fetch("http://localhost:3000/send_agree", options)
+    .then((response) => {
+      if (response.ok) {
+        console.error("OK");
+      } else {
+        console.error("Ошибка при получении ответа от сервера.");
+      }
+    })
+    .catch((error) => {
+      console.error("Произошла ошибка при выполнении запроса:", error);
+    });
+  });
   $(function() {
     let notification =
     '<div id="notification">' +
@@ -114,11 +150,15 @@ socket.on(
       });
     });
 
-    socket.on("info_course",(type_oi,questions, order ,chetQuestions,video) => {
-        if(type_oi == "text"){
+    socket.on("info_course",(type_oi,questions, order ,chetQuestions,video,rule) => {
+      console.log(type_oi);
+      if(type_oi == "text"){
+          $(".rule-description").hide();
           $(".container_video").hide();
-       }else{
+          $(".button-agree").hide();
+       }else if(type_oi == "video"){
           $("#questionH2").hide();
+          $(".button-agree").hide();
           let link;
           video.forEach(element => {
             if(element.idvideo == questions[order[chetQuestions]].question){
@@ -129,5 +169,14 @@ socket.on(
           $('source').attr('src', link);
           var videoElement = $('#my-video')[0];
           videoElement.load();
+        }else{
+          rule.forEach(element =>{
+            if(element.title == questions[order[chetQuestions]].question){
+              $(".rule-title").text(element.title);
+              $(".rule-description").text(element.ruleText);
+            }
+          });
+          $(".box").hide();
+          $(".container_video").hide();
         }
     });
