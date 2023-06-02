@@ -403,7 +403,18 @@ function clickButonChange(url, options) {
     });
 }
 
-
 $("#linkVideo").click(function() {
   $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить видео заполните обязательные поля Test и добавте через файл видео ряд. Необязательные поля: description. Поле Link для обновление и удаление.");
+});
+$("#linkCourse").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить новый курс обязательно заполните поля:Name. Остальные являются необязательными. Для обновления фото курса выберите из поля Name курс и выберить через file новое фото.");
+});
+$("#linkTest").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить тест заполните обязательные поля course и Name. Необязательные поля: description.");
+});
+$("#linkQuestion").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Чтобы добавить новый вопрос нужно: в поле Question записать либо id видео для воспроизведения, либо слово или предложение. Если это видео в поле Output выберите обязательно 'video'! Обязательно выберите test к которому будет относится вопрос!! И Запишите ответ! Для удаления достаточно выбор в поле Question нужный вопрос и нажать Delete.");
+});
+$("#linkRule").click(function() {
+  $("#promptAdmin").attr("data-bs-original-title", "Обязательные поля: Name, text, test!");
 });
