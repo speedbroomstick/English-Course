@@ -6,17 +6,22 @@ let usersSearch = [];
 let testsSearch = [];
 let questionsSearch = [];
 let videoSearch = [];
+let ruleSearch = [];
 let allDataCourses;
 let dictionaryGroup;
 let wordsData;
 let users;
 let tests;
 let questionsData;
+let ruleData;
 let videoData;
 let courseID;
 let testId;
 let questionId;
 let videoIdTest;
+let idGroup;
+let ruleID;
+let idWords;
 $('.wrapper_video').hide();
 $('#courseVideo').prop('disabled', true);
 $("#courseVideo").change(function (event) {
@@ -30,6 +35,19 @@ $("#courseVideo").change(function (event) {
     $('source').attr('src', imgData);
         var videoElement = $('#my-video')[0];
         videoElement.load();
+  };
+
+  reader.readAsDataURL(file); // Прочитать содержимое файла в формате Data URL
+});
+$("#groupPhoto").change(function (event) {
+  const file = event.target.files[0]; // Получить выбранный файл
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    const imgData = event.target.result; // Получить данные изображения
+
+    // Найти элемент с идентификатором "pictureCourse" и установить данные изображения в качестве значения атрибута src
+    $("#pictureGroup").attr("src", imgData);
   };
 
   reader.readAsDataURL(file); // Прочитать содержимое файла в формате Data URL
@@ -68,6 +86,19 @@ document.getElementById("videoLink").addEventListener("input", function (event) 
         var videoElement = $('#my-video')[0];
         videoElement.load();
         videoIdTest = element.test_id;
+      }
+    });
+  }
+});
+document.getElementById("ruleTitle").addEventListener("input", function (event) {
+  event.preventDefault();
+  if (ruleSearch.includes(event.target.value)) {
+    ruleData.forEach((element) => {
+      if (element.title == event.target.value) {
+        $("#ruleName").val(element.name);
+        $("#ruleText").text(element.ruleText);
+        $("#ruleTest").val(testsSearch[element.test_id - 1]);
+        ruleID = element.idrule;
       }
     });
   }
@@ -120,6 +151,8 @@ document
     if (dictionaryGroupSearch.includes(event.target.value)) {
       dictionaryGroup.forEach((element) => {
         if (element.name == event.target.value) {
+          idGroup = element.idGroup;
+          $("#pictureGroup").attr("src", element.photo);
           $("#groupDesc").val(element.description);
         }
       });
@@ -130,18 +163,10 @@ document.getElementById("word").addEventListener("input", function (event) {
   if (wordsSearch.includes(event.target.value)) {
     wordsData.forEach((element) => {
       if (element.word == event.target.value) {
+        idWords = element.idWords;
+        $("#wordTest").val(dictionaryGroupSearch[element.idGroup - 1]);
         $("#translation").val(element.translation);
         $("#example").val(element.example);
-      }
-    });
-  }
-});
-document.getElementById("login").addEventListener("input", function (event) {
-  event.preventDefault();
-  if (usersSearch.includes(event.target.value)) {
-    users.forEach((element) => {
-      if (element.login == event.target.value) {
-        $("#password").val(element.password);
       }
     });
   }
@@ -149,7 +174,8 @@ document.getElementById("login").addEventListener("input", function (event) {
 
 socket.on(
   "administrator",
-  (dataCourses, dataDictionaryGroup, words, user, test, questions,video) => {
+  (dataCourses, dataDictionaryGroup, words, user, test, questions,video,rule) => {
+    ruleData = rule;
     videoData = video;
     questionsData = questions;
     tests = test;
@@ -157,6 +183,9 @@ socket.on(
     dictionaryGroup = dataDictionaryGroup;
     wordsData = words;
     users = user;
+    rule.forEach((element) => {
+      ruleSearch.push(element.title);
+    });
     video.forEach((element) => {
       videoSearch.push(element.link);
     });
@@ -196,13 +225,7 @@ $(function () {
       console.error("Произошла ошибка при выполнении запроса:", error);
     });
 });
-// курсы
-// {
-//   method: "POST",
-//   body: JSON.stringify(data),
-//   headers: {
-//     "Content-Type": "application/json",
-//   }}
+
 $("#coursesAdd").click(function () {
   const fileInput = $("#coursePhoto")[0];
   const data = {
@@ -392,6 +415,151 @@ $("#videoDelete").click(function () {
     body: formData,
   };
   clickButonChange("videoChange", options);
+});
+//rule
+$("#ruleAdd").click(function () {
+  const data = {
+    ruleTitle:  $("#ruleTitle").val(),
+    ruleName: $("#ruleName").val(),
+    ruleText:  $("#ruleText").val(),
+    ruleTest: $("#ruleTest").val(),
+    ruleID: ruleID,
+    type: "add",
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("ruleChange", options);
+});
+$("#ruleUpdate").click(function () {
+  console.log($("#ruleText").text());
+  const data = {
+    ruleTitle:  $("#ruleTitle").val(),
+    ruleName: $("#ruleName").val(),
+    ruleText: $("#ruleText").val(),
+    ruleTest: $("#ruleTest").val(),
+    ruleID: ruleID,
+    type: "update",
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("ruleChange", options);
+});
+$("#ruleDelete").click(function () {
+   const data = {
+    ruleID: ruleID,
+    type: "delete",
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("ruleChange", options);
+});
+//group
+
+$("#groupAdd").click(function () {
+  const fileInput = $("#groupPhoto")[0];
+  const data = {
+    groupName: $("#groupName").val(),
+    groupDesc: $("#groupDesc").val(),
+    type: "add",
+  };
+  const formData = new FormData();
+  formData.append("photo", fileInput.files[0]);
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("groupChange", options);
+});
+$("#groupUpdate").click(function () {
+  const fileInput = $("#groupPhoto")[0];
+  const data = {
+    groupName: $("#groupName").val(),
+    groupDesc: $("#groupDesc").val(),
+    idGroup: idGroup,
+    type: "update",
+  };
+  const formData = new FormData();
+  formData.append("photo", fileInput.files[0]);
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("groupChange", options);
+});
+$("#groupDelete").click(function () {
+  const data = {
+    idGroup: idGroup,
+    type: "delete",
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("groupChange", options);
+});
+//word
+
+$("#wordAdd").click(function () {
+  const data = {
+    word: $("#word").val(),
+    translation: $("#translation").val(),
+    wordTest: $("#wordTest").val(),
+    example: $("#example").val(),
+    type: "add",
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("wordChange", options);
+});
+$("#wordUpdate").click(function () {
+  const data = {
+    word: $("#word").val(),
+    translation: $("#translation").val(),
+    wordTest: $("#wordTest").val(),
+    example: $("#example").val(),
+    idWords: idWords,
+    type: "update",
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("wordChange", options);
+});
+$("#wordDelete").click(function () {
+  const data = {
+    idWords: idWords,
+    type: "delete",
+  };
+  const formData = new FormData();
+  formData.append("data", JSON.stringify(data));
+  const options = {
+    method: "POST",
+    body: formData,
+  };
+  clickButonChange("wordChange", options);
 });
 function clickButonChange(url, options) {
   fetch("http://localhost:3000/" + url, options)

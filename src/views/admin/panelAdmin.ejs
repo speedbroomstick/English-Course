@@ -7,9 +7,6 @@
       <a class="nav-link" data-toggle="tab" href="#dictionary">Dictionary</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#users">Users</a>
-    </li>
-    <li class="nav-item">
       <a id="promptAdmin" class="nav-link" data-toggle="tooltip" data-placement="top" title="Чтобы добавить новый курс обязательно заполните поля:Name. Остальные являются необязательными. Для обновления фото курса выберите из поля Name курс и выберить через file новое фото.">
         <i class="fas fa-question-circle"></i>
       </a>
@@ -144,6 +141,7 @@
               <label for="inputType">Input Type:</label>
               <select class="form-control" id="inputType">
                 <option value="audio">audio</option>
+                <option value="rule">rule</option>
               </select>
             </div>
             <div class="form-group">
@@ -151,6 +149,7 @@
               <select class="form-control" id="outputType">
                 <option value="text">text</option>
                 <option value="video">video</option>
+                <option value="rule">rule</option>
               </select>
             </div>
             <div class="form-group">
@@ -226,20 +225,35 @@
               <input type="text" class="form-control" id="ruleName" />
             </div>
             <div class="form-group">
+              <label for="ruleName">Title:</label>
+              <input
+              type="text"
+              class="form-control"
+              list="rulelistOptions"
+              id="ruleTitle"
+              placeholder="Type to search..."
+            />
+            <datalist id="rulelistOptions">
+              <% rule.forEach((rule)=> { %>
+                <option value="<%= rule.title %>"></option>
+                <% });%>
+            </datalist>
+            </div>
+            <div class="form-group">
               <label for="ruleText">Text (Large Field):</label>
               <textarea class="form-control" id="ruleText" rows="5"></textarea>
             </div>
             <div class="form-group">
               <label for="ruleTest">Test:</label>
               <select class="form-control" id="ruleTest">
-                <option value="test1">Test 1</option>
-                <option value="test2">Test 2</option>
-                <!-- Add more options for tests -->
+                <% tests.forEach((test)=> { %>
+                <option value="<%= test.name %>"><%= test.name %></option>
+                <% });%>
               </select>
             </div>
-            <button type="submit" class="btn btn-success">Add</button>
-            <button type="submit" class="btn btn-primary">Update</button>
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" id="ruleAdd" class="btn btn-success">Add</button>
+            <button type="submit" id="ruleUpdate" class="btn btn-primary">Update</button>
+            <button type="submit" id="ruleDelete" class="btn btn-danger">Delete</button>
           </form>
         </div>
       </div>
@@ -277,15 +291,22 @@
             </div>
             <div class="form-group">
               <label for="groupPhoto">Photo:</label>
-              <input type="file" class="form-control-file" id="groupPhoto" />
+              <div class="row align-items-center">
+                <div class="col">
+                  <input type="file" class="form-control-file" id="groupPhoto" />
+                </div>
+                <div class="col-auto rounded-frame">
+                  <img id="pictureGroup" src="/user.png">
+                </div>         
+              </div>
             </div>
             <div class="form-group">
               <label for="groupDesc">Description:</label>
               <input type="text" class="form-control" id="groupDesc" />
             </div>
-            <button type="submit" class="btn btn-success">Add</button>
-            <button type="submit" class="btn btn-primary">Update</button>
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" id="groupAdd" class="btn btn-success">Add</button>
+            <button type="submit" id="groupUpdate" class="btn btn-primary">Update</button>
+            <button type="submit" id="groupDelete" class="btn btn-danger">Delete</button>
           </form>
         </div>
 
@@ -312,42 +333,23 @@
               <input type="text" class="form-control" id="translation" />
             </div>
             <div class="form-group">
-              <label for="example">Example:</label>
-              <textarea class="form-control" id="example" rows="5"></textarea>
+              <label for="wordTest">Group:</label>
+              <select class="form-control" id="wordTest">
+                <% dataDictionaryGroup.forEach((dictionary)=> { %>
+                  <option value="<%= dictionary.name %>"><%= dictionary.name %></option>
+                  <% });%>
+              </select>
             </div>
-            <button type="submit" class="btn btn-success">Add</button>
-            <button type="submit" class="btn btn-primary">Update</button>
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <div class="form-group">
+              <label for="example">Example:</label>
+              <input type="text" class="form-control" id="example" />
+            </div>
+            <button type="submit" id="wordAdd" class="btn btn-success">Add</button>
+            <button type="submit" id="wordUpdate" class="btn btn-primary">Update</button>
+            <button type="submit" id="wordDelete" class="btn btn-danger">Delete</button>
           </form>
         </div>
       </div>
-    </div>
-    <!-- Users Tab -->
-    <div id="users" class="tab-pane fade">
-      <form>
-        <div class="form-group">
-          <label for="login">Login:</label>
-          <input
-          type="text"
-          class="form-control"
-          list="loginlistOptions"
-          id="login"
-          placeholder="Type to search..."
-        />
-        <datalist id="loginlistOptions">
-          <% users.forEach((user)=> { %>
-          <option value="<%= user.login %>"></option>
-          <% });%>
-        </datalist>
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="text" class="form-control" id="password" />
-        </div>
-        <button type="submit" class="btn btn-success">Add</button>
-        <button type="submit" class="btn btn-primary">Update</button>
-        <button type="submit" class="btn btn-danger">Delete</button>
-      </form>
     </div>
   </div>
 </div>

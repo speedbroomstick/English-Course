@@ -135,19 +135,23 @@ socket.on(
     "</span>" +
     "</div>";
   $(notification).prependTo("body").fadeIn(500).fadeOut(5000);
-    fetch("http://localhost:3000/getAllInformationCourse", {
-      method: "GET",
+  fetch("http://localhost:3000/getAllInformationCourse", {
+    method: "GET",
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json(); // Преобразуем тело ответа в JSON
+      } else {
+        throw new Error("Ошибка при получении ответа от сервера.");
+      }
     })
-      .then((response) => {
-        if (response.ok) {
-         console.log("ok");
-        } else {
-          console.error("Ошибка при получении ответа от сервера.");
-        }
-      })
-      .catch((error) => {
-        console.error("Произошла ошибка при выполнении запроса:", error);
-      });
+    .then((data) => {
+      // Здесь вы можете использовать полученные данные
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Произошла ошибка при выполнении запроса:", error);
+    });
     });
 
     socket.on("info_course",(type_oi,questions, order ,chetQuestions,video,rule) => {

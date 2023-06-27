@@ -110,9 +110,17 @@ module.exports = (io) => {
 
   
   router.get("/getAllInformationCourse", async (req, res) => {
-    await io.emit("info_course",test.data[test.order[0]].type_oi, test.data, test.order, test.chetQuestions, video, rule);
-    res.send("Ok");
-  });
+    const responseData = {
+      type_oi: test.data[test.order[0]].type_oi,
+      data: test.data,
+      order: test.order,
+      chetQuestions: test.chetQuestions,
+      video: video,
+      rule: rule
+    };
+  
+    res.json(responseData);
+  });  
 
   return router;
 };

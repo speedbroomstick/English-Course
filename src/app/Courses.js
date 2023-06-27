@@ -36,6 +36,10 @@ class Courses {
       let result = await this.mySql.query("SELECT * FROM `rule` WHERE test_id = "+ idTest);
       return result;
      }
+    async getAllRule(){
+      let result = await this.mySql.query("SELECT * FROM `rule`");
+      return result;
+     }
      async getAllVideo(){
       let result = await this.mySql.query("SELECT * FROM `video`");
       return  this.decodeUrl(result,'link');
@@ -111,6 +115,19 @@ class Courses {
       return result;
      }
 
+     async addWord(word,translation,wordTest,example){ 
+
+      let result = await this.mySql.query("INSERT INTO words (word, translation, example, idGroup) VALUES ('"+ word +"', '"+ translation +"', '"+ example +"', "+ wordTest +");");
+      return result;
+     }
+     async updateWord(word,translation,wordTest,example,idWords){
+      let result = await this.mySql.query("UPDATE `words` SET word = '"+ word +"' ,translation = '"+ translation +"' , example = '"+ example + "', idGroup = "+ wordTest +" WHERE idWords = "+ idWords +";");
+      return result;
+     }
+     async deleteWord(idWords){      
+      let result = await this.mySql.query("DELETE FROM `words` WHERE idWords = "+ idWords +";");
+      return result;
+     }
 
      async addVideo(description,testId,file){  
       let result = await this.mySql.query("INSERT INTO `video` (link,description,test_id) VALUES ('"+ await this.fireBase.uploadPicture(file) +"','"+ description +"',"+ parseInt(testId) +");");
@@ -129,6 +146,49 @@ class Courses {
        let result = await this.mySql.query("DELETE FROM `video` WHERE idvideo = "+ videoID +";");
        return result;
       }
+
+
+      async addRule(ruleTitle,ruleName,ruleText,testid){  
+        ruleText = ruleText.replace(/['"]/g, '*');
+        let result = await this.mySql.query("INSERT INTO `rule` (name,title,ruleText,test_id) VALUES ('"+ ruleName +"','"+ ruleTitle +"','"+ ruleText +"',"+ testid +");");
+        return result;
+      }
+      async updateRule(ruleTitle,ruleName,ruleText,testid,ruleID){  
+        ruleText = ruleText.replace(/['"]/g, '*');  
+        let result = await this.mySql.query('UPDATE `rule` SET name = "'+ ruleName +'",title = "'+ ruleTitle +'" ,ruleText = "'+ ruleText +'",test_id = '+ testid +' WHERE idrule = '+ ruleID +';');
+         return result;
+      }
+      async deleteRule(ruleID){      
+         let result = await this.mySql.query("DELETE FROM `rule` WHERE idrule = "+ ruleID +";");
+         return result;
+      }
+
+
+
+
+      async addGroupWithoutFoto(groupName,groupDesc){  
+        let result = await this.mySql.query("INSERT INTO `group` (name,description) VALUES ('"+ groupName +"','"+ groupDesc +"');");
+        return result;
+        }
+       async addGroup(groupName,groupDesc,idGroup,file){  
+        let result = await this.mySql.query("INSERT INTO `group` (name,photo,description) VALUES ('"+ groupName +"','"+ await this.fireBase.uploadPicture(file) +"','"+ groupDesc +"');");
+       return result;
+       }
+       async updateGroupWithoutFoto(groupName,groupDesc,idGroup){      
+        let result = await this.mySql.query("UPDATE `group` SET name = '"+ groupName +"' ,description = '"+ groupDesc +"' WHERE idGroup = "+ idGroup +";");
+        return result;
+       }
+       async updateGroup(groupName,groupDesc,idGroup,file){      
+        let url = await this.fireBase.uploadPicture(file);
+        let result = await this.mySql.query("UPDATE `group` SET name = '"+ groupName +"' ,description = '"+ groupDesc +"', photo = '"+ url +"' WHERE idGroup = "+ idGroup +";");
+        return result;
+       }
+       async deleteGroup(idGroup){      
+        let result = await this.mySql.query("DELETE FROM `group` WHERE idGroup = "+ idGroup +";");
+        return result;
+       }
+
+
 
 
     async decodeUrl(data,key){

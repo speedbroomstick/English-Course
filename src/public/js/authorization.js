@@ -1,9 +1,11 @@
+$("#adminButton").hide();
 $(document).ready(function() {
   $(".btnLogin-popup").on("click", show_page_form);
 });
 const username = getCookie('username'); 
 if(username){
   $('.logo').text(username);
+  $("#adminButton").show();
 }
 $(".wrapper").hide();
 let flag = false;
@@ -60,6 +62,7 @@ $("#knopocka_login").click(function () {
     const username = getCookie('username'); 
     if(username){
         $('.logo').text(username);
+        $("#adminButton").show();
     }
     }else{
         alert(data);

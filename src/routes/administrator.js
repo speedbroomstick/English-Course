@@ -22,6 +22,7 @@ module.exports = (io) => {
     let tests;
     let questions;
     let video;
+    let rule;
     router.get("/show_panel_admin", async (req, res) => {
         courses = new Courses(new MySql(), new FireBase());
         dataCourses = await courses.getCourses();
@@ -34,11 +35,12 @@ module.exports = (io) => {
         user = new Users(new MySql());
         users = await user.getAllUser();
         video = await courses.getAllVideo();
-        res.render("admin/mainPanel",{dataCourses:dataCourses,dataDictionaryGroup:dataDictionaryGroup,words:words,users:users,tests:tests,questions:questions,video:video});
+        rule = await courses.getAllRule();
+        res.render("admin/mainPanel",{dataCourses:dataCourses,dataDictionaryGroup:dataDictionaryGroup,words:words,users:users,tests:tests,questions:questions,video:video,rule:rule});
     });
   
     router.get("/getAllInformation", async (req, res) => {
-      await io.emit("administrator",dataCourses,dataDictionaryGroup,words,users,tests,questions,video);
+      await io.emit("administrator",dataCourses,dataDictionaryGroup,words,users,tests,questions,video,rule);
       res.send("Ok");
     });
 
@@ -67,7 +69,50 @@ module.exports = (io) => {
       res.sendStatus(200);
     });
 
-
+    router.post('/groupChange', upload.single('photo'), async (req, res) => {
+      let data = JSON.parse(req.body.data);
+      let groupName = data.groupName;
+      let groupDesc = data.groupDesc;
+      let idGroup = data.idGroup;
+      if( data.type == "add"){
+        if(req.file === undefined){
+          await courses.addGroupWithoutFoto(groupName,groupDesc);
+        }else{
+        await courses.addGroup(groupName,groupDesc,idGroup,req.file);
+        }
+      }else if(data.type == "update"){
+        if(req.file === undefined){
+          await courses.updateGroupWithoutFoto(groupName,groupDesc,idGroup);
+        }
+        else{
+          await courses.updateGroup(groupName,groupDesc,idGroup,req.file);
+        }
+      }else{
+        await courses.deleteGroup(idGroup);
+      }
+      res.sendStatus(200);
+    });
+    router.post("/wordChange", upload.none() ,async(req, res)=>{
+      let data = JSON.parse(req.body.data);
+      let word = data.word;
+      let translation = data.translation;
+      let wordTest = data.wordTest;
+      let example = data.example;
+      let idWords = data.idWords;
+      dataDictionaryGroup.forEach(element => {
+        if(element.name == wordTest){
+          wordTest = element.idGroup;
+        }
+      });
+      if( data.type == "add"){
+        await courses.addWord(word,translation,wordTest,example);
+      }else if( data.type == "update"){
+        await courses.updateWord(word,translation,wordTest,example,idWords);
+      }else{
+        await courses.deleteWord(idWords);
+      }
+      res.sendStatus(200);
+    });
     router.post("/testChange", upload.none() ,async(req, res)=>{
       let data = JSON.parse(req.body.data);
       let name = data.testName;
@@ -110,7 +155,6 @@ module.exports = (io) => {
           testId = element.idtest;
         }
       });
-      console.log(data);
       if( data.type == "add"){
         await courses.addVideo(description,testId,req.file);
       }else if( data.type == "update"){
@@ -119,7 +163,28 @@ module.exports = (io) => {
         await courses.deleteVideo(videoID);
       }
       res.sendStatus(200);
-
+    });
+    router.post("/ruleChange", upload.none(), async(req, res)=>{
+      let data = JSON.parse(req.body.data);
+      console.log(data);
+      let ruleTitle = data.ruleTitle;
+      let ruleName = data.ruleName;
+      let ruleText = data.ruleText;
+      let ruleID = data.ruleID;
+      let testID = data.ruleTest;
+      tests.forEach(element => {
+        if(element.name == testID){
+          testID = element.idtest;
+        }
+      });
+      if( data.type == "add"){
+        await courses.addRule(ruleTitle,ruleName,ruleText,testID);
+      }else if( data.type == "update"){
+        await courses.updateRule(ruleTitle,ruleName,ruleText,testID,ruleID);
+      }else{
+        await courses.deleteRule(ruleID);
+      }
+      res.sendStatus(200);
     });
     return router;
   };
